@@ -1,0 +1,31 @@
+{
+  "name": "ip-address-tracker",
+  "description": "![Design preview for the IP address tracker coding challenge](./design/desktop-preview.jpg)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/slightlyfunctional/IP-address-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@fontsource/rubik": "^4.5.14",
+    "eslint": "^8.39.0",
+    "eslint-plugin-react": "^7.32.2",
+    "modern-css-reset": "^1.4.0",
+    "parcel": "^2.8.3"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "styled-components": "^5.3.10"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/slightlyfunctional/IP-address-tracker/issues"
+  },
+  "homepage": "https://gitlab.com/slightlyfunctional/IP-address-tracker#readme"
+}
