@@ -16,7 +16,7 @@ export const config = {
 
 export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
-  const clientAddress = ipAddress(request);
+  const clientAddress = new URL(request.url).searchParams.get('query') || ipAddress(request);
 
   // const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
@@ -105,7 +105,7 @@ export default async function handler (request) {
     location,
     isp
   });
-  await kv.set(ip, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs
+  await kv.set(ip, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs to prevent abuse
   return cors(request, new Response(response, {
     status: 200,
     headers: {
