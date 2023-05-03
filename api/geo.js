@@ -13,7 +13,7 @@ export default async (request) => {
   
   if (cachedResponse) {
     console.log(`Cached response for ${clientAddress}`);
-    return new Response(cachedResponse, {
+    return new Response(JSON.stringify(cachedResponse), {
       status: 200,
       headers: {
         'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ export default async (request) => {
     location,
     isp
   });
-  await kv.set(ip, response);
+  await kv.set(ip, 60 * 60 * 24 * 1, response); // 1-day cached
   return new Response(response, {
     status: 200,
     headers: {
