@@ -51,7 +51,7 @@ export default function App () {
     <AppContainer>
       <TrackerMapContainer>
         <Suspense fallback={<Loading />}>
-          <Header ip={ip} location={location} timezone={timezone} isp={isp} queryFn={fetchLocation} />
+          <Header ip={ip} location={location} timezone={timezone} isp={isp} queryFn={() => {}} />
           <Map coords={coords} />
         </Suspense>
       </TrackerMapContainer>
