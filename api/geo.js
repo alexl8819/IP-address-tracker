@@ -11,7 +11,7 @@ export default async (request) => {
   const clientAddress = ipAddress(request);
   const ratelimit = new Ratelimit({
     redis: kv,
-    limiter: Ratelimit.tokenBucket(5, '10 s', 10),
+    limiter: Ratelimit.slidingWindow(5, '10 s'), //.tokenBucket(5, '10 s', 10),
     analytics: true
   });
 
