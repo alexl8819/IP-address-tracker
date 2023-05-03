@@ -1,3 +1,4 @@
+import kv from '@vercel/kv';
 import { ipAddress } from '@vercel/edge';
 
 export const config = {
@@ -8,11 +9,25 @@ export default async (request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = ipAddress(request);
 
+  const cachedResponse = await kv.get(clientAddress);
+  
+  if (cachedResponse) {
+    return new Response(cachedResponse, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   if (!clientAddress) {
     return new Response(JSON.stringify({
       message: 'Bad response - Missing client IP'
     }), {
-      status: 500
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   }
 
@@ -33,12 +48,13 @@ export default async (request) => {
   }
 
   const { ip, location, isp } = geoIp;
-
-  return new Response(JSON.stringify({
+  const response = JSON.stringify({
     ip,
     location,
     isp
-  }), {
+  });
+  await kv.set(ip, response);
+  return new Response(response, {
     status: 200,
     headers: {
       'Content-Type': 'application/json'
