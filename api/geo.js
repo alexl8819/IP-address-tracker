@@ -4,8 +4,21 @@ export const config = {
 
 export default async (request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
-  const clientAddress = request.headers['x-real-ip'];
-  const { ip, location, isp } = await locate(clientAddress, API_KEY);
+  const clientAddress = response.headers['x-real-ip'];
+  let geoIp; 
+  try {
+    geoIp = await locate(clientAddress, API_KEY);
+  } catch (err) {
+    return new Response(JSON({
+      message: 'Bad response'
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+  const { ip, location, isp } = geoIp;
   console.log(`${clientAddress} -> ${ip} ${isp}`);
   return new Response(JSON.stringify({
     ip,
