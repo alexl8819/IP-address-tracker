@@ -1,17 +1,29 @@
+import { ipAddress } from '@vercel/edge';
+
 export const config = {
   runtime: 'edge',
 };
 
 export default async (request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
-  const clientAddress = '8.8.8.8'; //request.headers['x-real-ip'];
-  console.log(request.headers);
-  let geoIp; 
+  const clientAddress = ipAddress(request);
+
+  if (!clientAddress) {
+    return new Response(JSON.stringify({
+      message: 'Bad response - Missing client IP'
+    }), {
+      status: 500
+    });
+  }
+
+  let geoIp;
+
   try {
     geoIp = await locate(clientAddress, API_KEY);
   } catch (err) {
-    return new Response(JSON({
-      message: 'Bad response'
+    console.error(err);
+    return new Response(JSON.stringify({
+      message: 'Bad response - GeoIP query failed'
     }), {
       status: 500,
       headers: {
@@ -19,8 +31,9 @@ export default async (request) => {
       }
     });
   }
+
   const { ip, location, isp } = geoIp;
-  console.log(`${clientAddress} -> ${ip} ${isp}`);
+
   return new Response(JSON.stringify({
     ip,
     location,
