@@ -31,6 +31,7 @@
     "react-test-renderer": "^18.2.0"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^0.4.2",
     "@vercel/edge": "^0.3.4",
     "@vercel/kv": "^0.1.1",
     "react": "^18.2.0",

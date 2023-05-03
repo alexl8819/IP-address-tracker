@@ -1,5 +1,6 @@
 import kv from '@vercel/kv';
 import { ipAddress } from '@vercel/edge';
+import { Ratelimit } from "@upstash/ratelimit";
 
 export const config = {
   runtime: 'edge',
@@ -8,6 +9,24 @@ export const config = {
 export default async (request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = ipAddress(request);
+  const ratelimit = new Ratelimit({
+    redis: kv,
+    limiter: Ratelimit.tokenBucket(5, '10 s', 10),
+    analytics: true
+  });
+
+  const { success } = await ratelimit.limit(clientAddress);
+
+  if (!success) {
+    return new Response(JSON.stringify({
+      message: 'Rate limited - please try again later'
+    }), {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 
   const cachedResponse = await kv.get(clientAddress);
   
