@@ -9,9 +9,10 @@ export const config = {
 export default async (request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = ipAddress(request);
+
   const ratelimit = new Ratelimit({
     redis: kv,
-    limiter: Ratelimit.slidingWindow(5, '10 s'), //.tokenBucket(5, '10 s', 10),
+    limiter: Ratelimit.slidingWindow(3, '10 s'),
     analytics: true
   });
 
@@ -73,7 +74,7 @@ export default async (request) => {
     location,
     isp
   });
-  await kv.set(ip, 60 * 60 * 24 * 1, response); // 1-day cached
+  await kv.set(ip, 60 * 60 * 24 * 1, response); // Cached for 24 hrs
   return new Response(response, {
     status: 200,
     headers: {
