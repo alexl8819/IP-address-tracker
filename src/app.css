@@ -1,0 +1,8 @@
+:root {
+  --dark-grey: hsl(0, 0%, 59%);
+  --very-dark-grey: hsl(0, 0%, 17%);
+}
+
+#app {
+  font-family: 'Rubik', sans-serif;
+}
