@@ -82,7 +82,8 @@ export default async function handler (request) {
           city,
           country,
           lat: latitude,
-          lng: longitude
+          lng: longitude,
+          timezone: 'Unknown'
         },
         isp: 'Unknown'
       }
