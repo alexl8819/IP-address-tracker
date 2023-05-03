@@ -1,14 +1,18 @@
 import kv from '@vercel/kv';
 import { ipAddress } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
+import cors from 'edge-cors';
 
-import withCors from '../config/cors';
+const corsConfig = {
+  origin: '*',
+  methods: 'GET,HEAD',
+};
 
 export const config = {
   runtime: 'edge',
 };
 
-async function handler (request) {
+export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = ipAddress(request);
 
@@ -21,37 +25,37 @@ async function handler (request) {
   const { success } = await ratelimit.limit(clientAddress);
 
   if (!success) {
-    return new Response(JSON.stringify({
+    return cors(request, new Response(JSON.stringify({
       message: 'Rate limited - please try again later'
     }), {
       status: 429,
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    }), corsConfig);
   }
 
   const cachedResponse = await kv.get(clientAddress);
   
   if (cachedResponse) {
     console.log(`Cached response for ${clientAddress}`);
-    return new Response(JSON.stringify(cachedResponse), {
+    return cors(request, new Response(JSON.stringify(cachedResponse), {
       status: 200,
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    }), corsConfig);
   }
 
   if (!clientAddress) {
-    return new Response(JSON.stringify({
+    return cors(request, new Response(JSON.stringify({
       message: 'Bad response - Missing client IP'
     }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    }), corsConfig);
   }
 
   let geoIp;
@@ -60,14 +64,14 @@ async function handler (request) {
     geoIp = await locate(clientAddress, API_KEY);
   } catch (err) {
     console.error(err);
-    return new Response(JSON.stringify({
+    return cors(request, new Response(JSON.stringify({
       message: 'Bad response - GeoIP query failed'
     }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json'
       }
-    });
+    }), corsConfig);
   }
 
   const { ip, location, isp } = geoIp;
@@ -77,15 +81,13 @@ async function handler (request) {
     isp
   });
   await kv.set(ip, 60 * 60 * 24 * 1, response); // Cached for 24 hrs
-  return new Response(response, {
+  return cors(request, new Response(response, {
     status: 200,
     headers: {
       'Content-Type': 'application/json'
     }
-  });
+  }), corsConfig);
 }
-
-export default withCors(handler);
 
 async function locate (ipAddress, apiKey) {
   const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${ipAddress}`);
