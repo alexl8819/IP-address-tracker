@@ -2,7 +2,7 @@ export const config = {
   runtime: 'edge',
 };
 
-export default async (request, response) => {
+export default async handler(request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = request.headers['x-real-ip'];
   const { ip, location, isp } = await locate(clientAddress, API_KEY);
@@ -10,7 +10,12 @@ export default async (request, response) => {
     ip,
     location,
     isp
-  }));
+  }), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
 
 async function locate (ipAddress, apiKey) {
