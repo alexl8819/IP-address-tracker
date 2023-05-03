@@ -12,6 +12,7 @@ export default async (request) => {
   const cachedResponse = await kv.get(clientAddress);
   
   if (cachedResponse) {
+    console.log(`Cached response for ${clientAddress}`);
     return new Response(cachedResponse, {
       status: 200,
       headers: {
