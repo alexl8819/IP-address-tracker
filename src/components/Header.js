@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import ArrowIcon from '../images/icon-arrow.svg';
+// import ArrowIcon from '../images/icon-arrow.svg';
 
 const Title = styled.h1`
   font-size: 1.5rem;
@@ -54,9 +54,8 @@ export default function Header ({ ip, location, timezone, isp, queryFn }) {
     <HeaderContainer>
       <Title>IP Address Tracker</Title>
       <QueryBar onSubmit={handleQuery}>
-        <QueryInput type="text" pattern="" value={ip} required />
+        <QueryInput type="text" pattern="" defaultValue={ip} required />
         <QuerySubmitBtn type="submit">
-          <ArrowIcon />
         </QuerySubmitBtn>
       </QueryBar>
       { 

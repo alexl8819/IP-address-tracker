@@ -33,7 +33,7 @@ export default function App () {
   useEffect(async () => {
     let initialLanding;
     try {
-      initialLanding = await getLocation();
+      initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/');
     } catch (err) {
       console.error(err);
       return;
@@ -52,7 +52,7 @@ export default function App () {
       <TrackerMapContainer>
         <Suspense fallback={<Loading />}>
           <Header ip={ip} location={location} timezone={timezone} isp={isp} queryFn={() => {}} />
-          <Map coords={coords} />
+          { coords ? <Map coords={coords} /> : null }
         </Suspense>
       </TrackerMapContainer>
     </AppContainer>

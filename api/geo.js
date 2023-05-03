@@ -1,12 +1,14 @@
 import kv from '@vercel/kv';
 import { ipAddress } from '@vercel/edge';
-import { Ratelimit } from "@upstash/ratelimit";
+import { Ratelimit } from '@upstash/ratelimit';
+
+import withCors from '../config/cors';
 
 export const config = {
   runtime: 'edge',
 };
 
-export default async (request) => {
+async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = ipAddress(request);
 
@@ -82,6 +84,8 @@ export default async (request) => {
     }
   });
 }
+
+export default withCors(handler);
 
 async function locate (ipAddress, apiKey) {
   const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${ipAddress}`);
