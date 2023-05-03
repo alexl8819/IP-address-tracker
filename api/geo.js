@@ -18,8 +18,7 @@ export default async function handler (request) {
 
   const ratelimit = new Ratelimit({
     redis: kv,
-    limiter: Ratelimit.slidingWindow(3, '10 s'),
-    analytics: true
+    limiter: Ratelimit.slidingWindow(3, '10 s')
   });
 
   const { success } = await ratelimit.limit(clientAddress);
@@ -35,7 +34,13 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  const cachedResponse = await kv.get(clientAddress);
+  let cachedResponse;
+
+  try {
+    cachedResponse = await kv.get(clientAddress);
+  } catch (err) {
+    console.error(err);
+  }
   
   if (cachedResponse) {
     console.log(`Cached response for ${clientAddress}`);
@@ -80,7 +85,7 @@ export default async function handler (request) {
     location,
     isp
   });
-  await kv.set(ip, 60 * 60 * 24 * 1, response); // Cached for 24 hrs
+  await kv.set(ip, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs
   return cors(request, new Response(response, {
     status: 200,
     headers: {
