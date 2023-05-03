@@ -6,6 +6,7 @@ export default async (request) => {
   const API_KEY = process.env.GEOIP_API_KEY;
   const clientAddress = request.headers['x-real-ip'];
   const { ip, location, isp } = await locate(clientAddress, API_KEY);
+  console.log(`${clientAddress} -> ${ip} ${isp}`);
   return new Response(JSON.stringify({
     ip,
     location,
