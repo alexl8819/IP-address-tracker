@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, Suspense } from 'react';
 import styled from 'styled-components';
 
 import Header from './components/Header';
-import Map from './components/Map';
+// import Map from './components/Map';
 import Loading from './components/Loading';
 
 import { getLocation } from './utilities/query';
@@ -23,6 +23,8 @@ const TrackerMapContainer = styled.div`
   }
 `;
 
+/*{ coords ? <Map coords={coords} /> : null }*/
+
 export default function App () {
   const [ip, setIp] = useState('');
   const [location, setLocation] = useState('');
@@ -30,29 +32,32 @@ export default function App () {
   const [timezone, setTimezone] = useState('');
   const [isp, setIsp] = useState('');
 
-  useEffect(async () => {
-    let initialLanding;
-    try {
-      initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/');
-    } catch (err) {
-      console.error(err);
-      return;
+  useEffect(() => {
+    async function runInitial () {
+      let initialLanding;
+      try {
+        initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/');
+      } catch (err) {
+        console.error(err);
+        return;
+      }
+      console.log(initialLanding);
+      const { ip, location, isp } = initialLanding;
+      const { region, city, country, lat, lng, timezone } = location;
+      setIp(ip);
+      setLocation(`${region}, ${city} ${country}`);
+      setCoords([lat, lng]);
+      setTimezone(timezone);
+      setIsp(isp);
     }
-    const { ip, location, isp } = initialLanding;
-    const { region, city, country, lat, lng, timezone } = location;
-    setIp(ip);
-    setLocation(`${region}, ${city} ${country}`);
-    setCoords([lat, lng]);
-    setTimezone(timezone);
-    setIsp(isp);
+    runInitial();
   }, []);
 
   return (
     <AppContainer>
       <TrackerMapContainer>
         <Suspense fallback={<Loading />}>
-          <Header ip={ip} location={location} timezone={timezone} isp={isp} queryFn={() => {}} />
-          { coords ? <Map coords={coords} /> : null }
+          <Header ip={ip} timezone={timezone} isp={isp} queryFn={() => {}} />
         </Suspense>
       </TrackerMapContainer>
     </AppContainer>

@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-// import ArrowIcon from '../images/icon-arrow.svg';
-
 const Title = styled.h1`
   font-size: 1.5rem;
   color: var(--dark-grey);
+  text-align: center;
 `;
 
 const HeaderContainer = styled.header`
@@ -33,7 +32,9 @@ const QueryInput = styled.input`
 
 const QuerySubmitBtn = styled.button`
   background-color: var(--very-dark-grey);
-  padding: 8px;
+  padding: 19px;
+  border: none;
+  height: auto;
 `;
 
 const ResultPanel = styled.ul`
@@ -46,6 +47,7 @@ const Result = styled.li`
 `;
 
 export default function Header ({ ip, location, timezone, isp, queryFn }) {
+  const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
   const handleQuery = (e) => {
     e.preventDefault();
     // queryFn(e.target.value);
@@ -56,6 +58,7 @@ export default function Header ({ ip, location, timezone, isp, queryFn }) {
       <QueryBar onSubmit={handleQuery}>
         <QueryInput type="text" pattern="" defaultValue={ip} required />
         <QuerySubmitBtn type="submit">
+          <img src={ArrowIcon} alt="arrow icon" />
         </QuerySubmitBtn>
       </QueryBar>
       { 
