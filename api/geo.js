@@ -3,8 +3,6 @@ import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 
-import { BalanceError } from './src/utilities/error';
-
 const corsConfig = {
   origin: '*',
   methods: 'GET,HEAD',
@@ -13,6 +11,13 @@ const corsConfig = {
 export const config = {
   runtime: 'edge',
 };
+
+class BalanceError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'BalanceError';
+  }
+}
 
 export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
