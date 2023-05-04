@@ -44,7 +44,7 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  if (!isIPv4(clientAddress) || !isIPv6(clientAddress)) {
+  if (!isIPv4(clientAddress) && !isIPv6(clientAddress)) {
     return cors(request, new Response(JSON.stringify({
       message: 'Bad request - Invalid query: Must be a valid IPv4 or IPv6 address'
     }), {
