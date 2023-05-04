@@ -44,6 +44,15 @@ const ResultPanel = styled.ul`
 const Result = styled.li`
   display: flex;
   flex-direction: column;
+  text-align: center;
+`;
+
+const ResultTitle = styled.p`
+  color: var(--dark-grey);
+`;
+
+const ResultValue = styled.p`
+  color: var(--very-dark-grey);
 `;
 
 export default function Header ({ ip, location, timezone, isp, queryFn }) {

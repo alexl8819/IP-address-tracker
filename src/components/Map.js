@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 export default function Map ({ coords }) {
+  console.log(coords)
   return (
     <MapContainer center={coords} zoom={13} scrollWheelZoom={false}>
       <TileLayer

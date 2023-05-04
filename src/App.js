@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, Suspense } from 'react';
 import styled from 'styled-components';
 
 import Header from './components/Header';
-// import Map from './components/Map';
+import Map from './components/Map';
 import Loading from './components/Loading';
 
 import { getLocation } from './utilities/query';
@@ -23,14 +23,8 @@ const TrackerMapContainer = styled.div`
   }
 `;
 
-/*{ coords ? <Map coords={coords} /> : null }*/
-
 export default function App () {
-  const [ip, setIp] = useState('');
-  const [location, setLocation] = useState('');
-  const [coords, setCoords] = useState([]);
-  const [timezone, setTimezone] = useState('');
-  const [isp, setIsp] = useState('');
+  const [geolocation, setGeolocation] = useState({});
 
   useEffect(() => {
     async function runInitial () {
@@ -44,11 +38,13 @@ export default function App () {
       console.log(initialLanding);
       const { ip, location, isp } = initialLanding;
       const { region, city, country, lat, lng, timezone } = location;
-      setIp(ip);
-      setLocation(`${region}, ${city} ${country}`);
-      setCoords([lat, lng]);
-      setTimezone(timezone);
-      setIsp(isp);
+      setGeolocation({
+        ip,
+        location: `${region}, ${city} ${country}`,
+        coords: [lat, lng],
+        timezone,
+        isp
+      });
     }
     runInitial();
   }, []);
@@ -57,7 +53,8 @@ export default function App () {
     <AppContainer>
       <TrackerMapContainer>
         <Suspense fallback={<Loading />}>
-          <Header ip={ip} timezone={timezone} isp={isp} queryFn={() => {}} />
+          <Header ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} queryFn={() => {}} />
+          { geolocation.coords ? <Map coords={geolocation.coords} /> : null }
         </Suspense>
       </TrackerMapContainer>
     </AppContainer>
