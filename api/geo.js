@@ -2,6 +2,7 @@ import kv from '@vercel/kv';
 import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
+import { isIPv4, isIPv6 } from 'is-ip';
 
 const corsConfig = {
   origin: '*',
@@ -37,6 +38,17 @@ export default async function handler (request) {
       message: 'Rate limited - please try again later'
     }), {
       status: 429,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }), corsConfig);
+  }
+
+  if (!isIPv4(clientAddress) || !isIPv6(clientAddress)) {
+    return cors(request, new Response(JSON.stringify({
+      message: 'Bad request - Invalid query: Must be a valid IPv4 or IPv6 address'
+    }), {
+      status: 400,
       headers: {
         'Content-Type': 'application/json'
       }
