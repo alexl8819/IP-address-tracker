@@ -28,7 +28,7 @@ export default async function handler (request) {
 
   const ratelimit = new Ratelimit({
     redis: kv,
-    limiter: Ratelimit.slidingWindow(3, '10 s')
+    limiter: Ratelimit.slidingWindow(10, '10 s')
   });
 
   const { success } = await ratelimit.limit(clientAddress);
