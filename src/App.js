@@ -26,6 +26,7 @@ const TrackerMapContainer = styled.div`
 
 export default function App () {
   const [geolocation, setGeolocation] = useState({ coords: [] });
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function runInitial () {
