@@ -26,7 +26,7 @@ const TrackerMapContainer = styled.div`
 
 export default function App () {
   const [geolocation, setGeolocation] = useState({ coords: [] });
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');
 
   useEffect(() => {
     async function runInitial () {
@@ -34,10 +34,10 @@ export default function App () {
       try {
         initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/');
       } catch (err) {
-        if (err instanceof RateLimitError) {
-          // TODO: implement 
-        }
         console.error(err);
+        if (err instanceof RateLimitError) {
+          //setError('Rate limited'); 
+        }
         return;
       }
       const { ip, location, isp } = initialLanding;

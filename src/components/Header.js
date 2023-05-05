@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const Title = styled.h1`
   font-size: 1.5rem;
+  font-weight: 500;
   color: var(--white);
   text-align: center;
 `;
@@ -27,27 +28,30 @@ const QueryBar = styled.form`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 `;
 
 const QueryInput = styled.input`
+  border: none;
   font-size: 18px;
-  padding: 10px;
-  border-radius-top-left: 12px;
-  border-radius-bottom-left: 12px;
+  padding: 15px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 `;
 
 const QuerySubmitBtn = styled.button`
   background-color: var(--very-dark-grey);
-  padding: 19px;
+  padding: 22px;
   border: none;
   height: auto;
   cursor: pointer;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 `;
 
 const ResultPanel = styled.ul`
   list-style-type: none;
-  margin: 0 30px;
+  margin: 0 25px;
   padding: 15px 0;
   background-color: var(--white);
   border-radius: 12px;
@@ -65,6 +69,7 @@ const ResultTitle = styled.p`
   color: var(--dark-grey);
   font-weight: 500;
   text-transform: uppercase;
+  margin-bottom: 5px;
 `;
 
 const ResultValue = styled.p`
