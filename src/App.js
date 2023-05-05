@@ -6,13 +6,14 @@ import Map from './components/Map';
 import Loading from './components/Loading';
 
 import { getLocation } from './utilities/query';
+import { RateLimitError } from './utilities/error';
 
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100hv;
+  min-height: 100vh;
   min-width: 320px;
 `;
 
@@ -24,7 +25,7 @@ const TrackerMapContainer = styled.div`
 `;
 
 export default function App () {
-  const [geolocation, setGeolocation] = useState({});
+  const [geolocation, setGeolocation] = useState({ coords: [] });
 
   useEffect(() => {
     async function runInitial () {
@@ -32,29 +33,31 @@ export default function App () {
       try {
         initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/');
       } catch (err) {
+        if (err instanceof RateLimitError) {
+          // TODO: implement 
+        }
         console.error(err);
         return;
       }
-      console.log(initialLanding);
       const { ip, location, isp } = initialLanding;
-      const { region, city, country, lat, lng, timezone } = location;
+      const { region, city, country, postalCode, lat, lng, timezone } = location;
       setGeolocation({
         ip,
-        location: `${region}, ${city} ${country}`,
+        location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`,
         coords: [lat, lng],
         timezone,
         isp
       });
     }
     runInitial();
-  }, []);
+  }, [geolocation]);
 
   return (
     <AppContainer>
       <TrackerMapContainer>
-        <Suspense fallback={<Loading />}>
-          <Header ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} queryFn={() => {}} />
-          { geolocation.coords ? <Map coords={geolocation.coords} /> : null }
+        <Suspense fallback={Loading}>
+          <Header ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={() => {}} />
+          <Map coords={geolocation.coords} />
         </Suspense>
       </TrackerMapContainer>
     </AppContainer>

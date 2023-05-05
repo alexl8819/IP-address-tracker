@@ -1,9 +1,12 @@
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
-import styled from 'styled-components';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
+import 'leaflet/dist/leaflet.css';
+
 export default function Map ({ coords }) {
-  console.log(coords)
+  if (!coords.length) {
+    return null;
+  }
   return (
     <MapContainer center={coords} zoom={13} scrollWheelZoom={false}>
       <TileLayer

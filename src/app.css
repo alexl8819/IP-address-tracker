@@ -1,8 +1,17 @@
 :root {
+  --white: hsl(0, 29%, 97%);
   --dark-grey: hsl(0, 0%, 59%);
   --very-dark-grey: hsl(0, 0%, 17%);
+  --bg-mobile-pattern: url('/src/images/pattern-bg-mobile.png');
+  --bg-desktop-pattern: url('/src/images/pattern-bg-desktop.png');
 }
 
 #app {
   font-family: 'Rubik', sans-serif;
+}
+
+.leaflet-container {
+  height: 370px;
+  width: 100vw;
+  z-index: 0;
 }
