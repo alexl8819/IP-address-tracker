@@ -1,7 +1,17 @@
+import L from 'leaflet';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
 import 'leaflet/dist/leaflet.css';
+
+// Parcel workaround: https://github.com/parcel-bundler/parcel/issues/973#issuecomment-484470626
+L.Marker.prototype.options.icon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
 
 export default function Map ({ coords }) {
   if (!coords.length) {
