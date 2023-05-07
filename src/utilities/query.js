@@ -1,7 +1,7 @@
 import { RateLimitError, InvalidRequestError, ServerRelatedError } from './error';
 
 export async function getLocation (base = '/', query = null) {
-  const response = await fetch(`${base}api/geo${query ? `?query=${query}` : ''}`);
+  const response = await fetch(`${base}api/geo${query ? `?query=${encodeURIComponent(query)}` : ''}`);
   if (!response.ok) {
     if (response.status === 429) {
       throw new RateLimitError('Too many requests');
