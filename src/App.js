@@ -26,38 +26,39 @@ const TrackerMapContainer = styled.div`
 
 export default function App () {
   const [geolocation, setGeolocation] = useState({ coords: [] });
-  // const [error, setError] = useState('');
+  const [error, setError] = useState('');
+  
+  const runQuery = async (query = null) => {
+    let initialLanding;
+    try {
+      initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/', query);
+    } catch (err) {
+      console.error(err);
+      if (err instanceof RateLimitError) {
+        setError('RATE_LIMITED'); 
+      }
+      return;
+    }
+    const { ip, location, isp } = initialLanding;
+    const { region, city, country, postalCode, lat, lng, timezone } = location;
+    setGeolocation({
+      ip,
+      location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`,
+      coords: [lat, lng],
+      timezone,
+      isp
+    });
+  }
 
   useEffect(() => {
-    async function runInitial () {
-      let initialLanding;
-      try {
-        initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/');
-      } catch (err) {
-        console.error(err);
-        if (err instanceof RateLimitError) {
-          //setError('Rate limited'); 
-        }
-        return;
-      }
-      const { ip, location, isp } = initialLanding;
-      const { region, city, country, postalCode, lat, lng, timezone } = location;
-      setGeolocation({
-        ip,
-        location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`,
-        coords: [lat, lng],
-        timezone,
-        isp
-      });
-    }
-    runInitial();
-  }, [geolocation]);
+    runQuery();
+  }, []);
 
   return (
     <AppContainer>
       <TrackerMapContainer>
         <Suspense fallback={Loading}>
-          <Header ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={() => {}} />
+          <Header ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={runQuery} />
           <Map coords={geolocation.coords} />
         </Suspense>
       </TrackerMapContainer>

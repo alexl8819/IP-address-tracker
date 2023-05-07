@@ -34,9 +34,13 @@ const QueryBar = styled.form`
 const QueryInput = styled.input`
   border: none;
   font-size: 18px;
-  padding: 15px;
+  padding: 15px 27px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
+
+  &:active, &:focus {
+    outline: none;
+  }
 `;
 
 const QuerySubmitBtn = styled.button`
@@ -78,18 +82,19 @@ const ResultValue = styled.p`
   font-size: 1rem;
 `;
 
+
 export default function Header ({ ip, location, timezone, isp, runQuery }) {
   const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
-  const handleQuery = (e) => {
+  const handleQuery = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
-    runQuery(fd.get('query'));
+    await runQuery(fd.get('query'));
   };
   return (
     <HeaderContainer>
       <Title>IP Address Tracker</Title>
       <QueryBar onSubmit={handleQuery}>
-        <QueryInput type="text" name="query" pattern="" defaultValue={ip} required />
+        <QueryInput type="text" name="query" pattern="((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))" defaultValue={ip} required />
         <QuerySubmitBtn type="submit">
           <img src={ArrowIcon} alt="arrow icon" />
         </QuerySubmitBtn>

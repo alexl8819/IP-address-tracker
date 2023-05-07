@@ -4,3 +4,17 @@ export class RateLimitError extends Error {
     this.name = 'RateLimitError';
   }
 }
+
+export class InvalidRequestError extends Error {
+  constructor (message) {
+    super(message);
+    this.name = 'InvalidRequestError';
+  }
+}
+
+export class ServerRelatedError extends Error {
+  constructor (message) {
+    super(message);
+    this.name = 'ServerRelatedError';
+  }
+}

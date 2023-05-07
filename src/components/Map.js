@@ -18,7 +18,7 @@ export default function Map ({ coords }) {
     return null;
   }
   return (
-    <MapContainer center={coords} zoom={13} scrollWheelZoom={false}>
+    <MapContainer center={coords} zoom={13} scrollWheelZoom={false} zoomControl={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
