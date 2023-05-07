@@ -14,6 +14,8 @@ const HeaderContainer = styled.header`
   background-size: contain;
   height: 300px;
   padding-top: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
   position: relative;
   z-index: 1;
 
@@ -34,9 +36,10 @@ const QueryBar = styled.form`
 const QueryInput = styled.input`
   border: none;
   font-size: 18px;
-  padding: 15px 27px;
+  padding: 15px 29px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
+  width: 85%;
 
   &:active, &:focus {
     outline: none;
@@ -44,18 +47,20 @@ const QueryInput = styled.input`
 `;
 
 const QuerySubmitBtn = styled.button`
+  display: flex;
+  justify-content: center;
   background-color: var(--very-dark-grey);
-  padding: 22px;
+  padding: 22px 15px;
   border: none;
-  height: auto;
+  height: 58px;
   cursor: pointer;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
+  width: 15%;
 `;
-
-const ResultPanel = styled.ul`
+//margin: 0 25px;
+const ResultPanel = styled.ul` 
   list-style-type: none;
-  margin: 0 25px;
   padding: 15px 0;
   background-color: var(--white);
   border-radius: 12px;
@@ -99,28 +104,36 @@ export default function Header ({ ip, location, timezone, isp, runQuery }) {
           <img src={ArrowIcon} alt="arrow icon" />
         </QuerySubmitBtn>
       </QueryBar>
-      { 
-        ip && location && timezone && isp ? 
-          <ResultPanel>
-            <Result>
-              <ResultTitle>ip address</ResultTitle>
-              <ResultValue>{ip}</ResultValue>
-            </Result>
-            <Result>
-              <ResultTitle>location</ResultTitle>
-              <ResultValue>{location}</ResultValue>
-            </Result>
-            <Result>
-              <ResultTitle>timezone</ResultTitle>
-              <ResultValue>UTC {timezone}</ResultValue>
-            </Result>
-            <Result>
-              <ResultTitle>isp</ResultTitle>
-              <ResultValue>{isp}</ResultValue>
-            </Result>
-        </ResultPanel>
-        : null
-      }
+      <ResultPanel>
+        { 
+          ip ? 
+          <Result>
+            <ResultTitle>ip address</ResultTitle>
+            <ResultValue>{ip}</ResultValue>
+          </Result> : null
+        }
+        {
+          location ?
+          <Result>
+            <ResultTitle>location</ResultTitle>
+            <ResultValue>{location}</ResultValue>
+          </Result> : null
+        }
+        {
+          timezone ?
+          <Result>
+            <ResultTitle>timezone</ResultTitle>
+            <ResultValue>UTC {timezone}</ResultValue>
+          </Result> : null
+        }
+        {
+          isp ?
+          <Result>
+            <ResultTitle>isp</ResultTitle>
+            <ResultValue>{isp}</ResultValue>
+          </Result> : null
+        }
+      </ResultPanel>
     </HeaderContainer>
   );
 }
