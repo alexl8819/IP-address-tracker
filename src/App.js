@@ -15,12 +15,24 @@ const AppContainer = styled.div`
   align-items: center;
   min-height: 100vh;
   min-width: 320px;
+  background-image: var(--bg-mobile-pattern);
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  @media screen and (min-width: 1024px) {
+    background-image: var(--bg-desktop-pattern);
+  }
 `;
 
 const TrackerMapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 23.438rem;
 
   @media screen and (min-width: 1024px) {
+    max-width: 52rem;
   }
 `;
 

@@ -3,15 +3,13 @@ import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import icon from '../images/icon-location.svg';
 
 import 'leaflet/dist/leaflet.css';
 
 // Parcel workaround: https://github.com/parcel-bundler/parcel/issues/973#issuecomment-484470626
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: icon,
-  shadowUrl: iconShadow
 });
 
 function LocationMarker ({ coords }) {

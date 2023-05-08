@@ -9,19 +9,12 @@ const Title = styled.h1`
 `;
 
 const HeaderContainer = styled.header`
-  background-image: var(--bg-mobile-pattern);
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 300px;
+  height: 280px;
   padding-top: 15px;
   padding-left: 25px;
   padding-right: 25px;
   position: relative;
   z-index: 1;
-
-  @media screen and (min-width: 1024px) {
-    background-image: var(--bg-desktop-pattern);
-  }
 `;
 
 const QueryBar = styled.form`
@@ -58,12 +51,18 @@ const QuerySubmitBtn = styled.button`
   border-bottom-right-radius: 12px;
   width: 15%;
 `;
-//margin: 0 25px;
-const ResultPanel = styled.ul` 
+
+const ResultPanel = styled.ol` 
+  display: flex;
+  flex-direction: column;
   list-style-type: none;
   padding: 15px 0;
   background-color: var(--white);
   border-radius: 12px;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+  }
 `;
 
 const Result = styled.li`
@@ -71,6 +70,14 @@ const Result = styled.li`
   flex-direction: column;
   text-align: center;
   margin-bottom: 15px;
+
+  @media screen and (min-width: 1024px) {
+    padding: 25px;
+    
+    &:not(:last-child) {
+      border-right: 1px solid var(--dark-grey);
+    }
+  }
 `;
 
 const ResultTitle = styled.p`

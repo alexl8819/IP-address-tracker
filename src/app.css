@@ -11,7 +11,7 @@
 }
 
 .leaflet-container {
-  height: 370px;
+  height: 400px;
   width: 100vw;
   z-index: 0;
 }
