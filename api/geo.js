@@ -22,7 +22,7 @@ class BalanceError extends Error {
 
 export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
-  const clientAddress = new URL(request.url).searchParams.get('query') || ipAddress(request);
+  const clientAddress = Buffer.from(new URL(request.url).searchParams.get('query'), 'base64').toString() || ipAddress(request);
 
   // const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
