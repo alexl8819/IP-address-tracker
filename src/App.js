@@ -32,7 +32,7 @@ const TrackerMapContainer = styled.div`
   max-width: 23.438rem;
 
   @media screen and (min-width: 1024px) {
-    max-width: 52rem;
+    max-width: 62rem;
   }
 `;
 

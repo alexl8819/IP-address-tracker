@@ -50,9 +50,13 @@ const QuerySubmitBtn = styled.button`
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   width: 15%;
+
+  &:hover {
+    background-color: var(--dark-grey);
+  }
 `;
 
-const ResultPanel = styled.ol` 
+const ResultView = styled.ol` 
   display: flex;
   flex-direction: column;
   list-style-type: none;
@@ -72,10 +76,19 @@ const Result = styled.li`
   margin-bottom: 15px;
 
   @media screen and (min-width: 1024px) {
-    padding: 25px;
+    text-align: left;
+    padding: 8px 25px;
+    margin-bottom: 0;
+  }
+`;
+
+const InnerResult = styled.div`
+  @media screen and (min-width: 1024px) {
+    margin-right: 10px;
+    border-right: 1px solid var(--light-grey);
     
-    &:not(:last-child) {
-      border-right: 1px solid var(--dark-grey);
+    &:last-child {
+      border-right: none;
     }
   }
 `;
@@ -85,15 +98,23 @@ const ResultTitle = styled.p`
   color: var(--dark-grey);
   font-weight: 500;
   text-transform: uppercase;
-  margin-bottom: 5px;
+  letter-spacing: 0.13em;
+  margin-bottom: 8px;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const ResultValue = styled.p`
+  font-size: 1rem;
   color: var(--very-dark-grey);
   font-weight: 500;
-  font-size: 1rem;
-`;
 
+  @media screen and (min-width: 1024px) {
+    font-size: 1.25rem;
+  }
+`;
 
 export default function Header ({ ip, location, timezone, isp, runQuery }) {
   const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
@@ -106,41 +127,49 @@ export default function Header ({ ip, location, timezone, isp, runQuery }) {
     <HeaderContainer>
       <Title>IP Address Tracker</Title>
       <QueryBar onSubmit={handleQuery}>
-        <QueryInput type="text" name="query" pattern="((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))" defaultValue={ip} required />
+        <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" pattern="((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))" defaultValue={ip} required />
         <QuerySubmitBtn type="submit">
           <img src={ArrowIcon} alt="arrow icon" />
         </QuerySubmitBtn>
       </QueryBar>
-      <ResultPanel>
+      <ResultView>
         { 
           ip ? 
           <Result>
-            <ResultTitle>ip address</ResultTitle>
-            <ResultValue>{ip}</ResultValue>
+            <InnerResult>
+              <ResultTitle>ip address</ResultTitle>
+              <ResultValue>{ip}</ResultValue>
+            </InnerResult>
           </Result> : null
         }
         {
           location ?
           <Result>
-            <ResultTitle>location</ResultTitle>
-            <ResultValue>{location}</ResultValue>
+            <InnerResult>
+              <ResultTitle>location</ResultTitle>
+              <ResultValue>{location}</ResultValue>
+            </InnerResult>
           </Result> : null
         }
         {
           timezone ?
           <Result>
-            <ResultTitle>timezone</ResultTitle>
-            <ResultValue>UTC {timezone}</ResultValue>
+            <InnerResult>
+              <ResultTitle>timezone</ResultTitle>
+              <ResultValue>UTC {timezone}</ResultValue>
+            </InnerResult>
           </Result> : null
         }
         {
           isp ?
           <Result>
-            <ResultTitle>isp</ResultTitle>
-            <ResultValue>{isp}</ResultValue>
+            <InnerResult>
+              <ResultTitle>isp</ResultTitle>
+              <ResultValue>{isp}</ResultValue>
+            </InnerResult>
           </Result> : null
         }
-      </ResultPanel>
+      </ResultView>
     </HeaderContainer>
   );
 }

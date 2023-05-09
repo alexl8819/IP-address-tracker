@@ -1,5 +1,6 @@
 :root {
   --white: hsl(0, 29%, 100%);
+  --light-grey: hsl(0, 6%, 83%);
   --dark-grey: hsl(0, 0%, 59%);
   --very-dark-grey: hsl(0, 0%, 17%);
   --bg-mobile-pattern: url('/src/images/pattern-bg-mobile.png');
