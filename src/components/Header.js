@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+// import isValidHostname from 'is-valid-hostname';
+// import { isIPv4, isIPv6 } from 'is-ip';
 import PropTypes from 'prop-types';
 
 const Title = styled.h1`
@@ -86,10 +88,10 @@ const InnerResult = styled.div`
   @media screen and (min-width: 1024px) {
     margin-right: 10px;
     border-right: 1px solid var(--light-grey);
-    
-    &:last-child {
-      border-right: none;
-    }
+  }
+
+  &:last-child {
+    border-right: none;
   }
 `;
 
@@ -121,13 +123,18 @@ export default function Header ({ ip, location, timezone, isp, runQuery }) {
   const handleQuery = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
-    await runQuery(fd.get('query'));
+    const query = fd.get('query');
+    if (!query /*|| !isIPv4(query) || !isIPv6(query)*/) {
+      console.error('invalid query');
+      return;
+    }
+    await runQuery(query);
   };
   return (
     <HeaderContainer>
       <Title>IP Address Tracker</Title>
-      <QueryBar onSubmit={handleQuery}>
-        <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" pattern="((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))" defaultValue={ip} required />
+      <QueryBar onSubmit={handleQuery} noValidate>
+        <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={ip} required />
         <QuerySubmitBtn type="submit">
           <img src={ArrowIcon} alt="arrow icon" />
         </QuerySubmitBtn>
