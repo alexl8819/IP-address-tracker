@@ -3,6 +3,7 @@ import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
+import isValidHostname from 'is-valid-hostname';
 
 const corsConfig = {
   origin: '*',
@@ -45,9 +46,9 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  if (!isIPv4(clientAddress) && !isIPv6(clientAddress)) {
+  if (!isIPv4(clientAddress) && !isIPv6(clientAddress) && !isValidHostname(clientAddress) && clientAddress !== 'localhost') {
     return cors(request, new Response(JSON.stringify({
-      message: 'Bad request - Invalid query: Must be a valid IPv4 or IPv6 address'
+      message: 'Bad request - Invalid query: Must be a valid IPv4, IPv6 address or hostname'
     }), {
       status: 400,
       headers: {
@@ -132,7 +133,7 @@ export default async function handler (request) {
   }), corsConfig);
 }
 
-async function locate (ipAddress, apiKey) {
+async function locate (ipAddressOrDomain, apiKey) {
   const balance = await fetch(`https://geo.ipify.org/service/account-balance?apiKey=${apiKey}`);
   const { credits } = await balance.json();
 
@@ -140,7 +141,7 @@ async function locate (ipAddress, apiKey) {
     throw new BalanceError('Credits are near zero');
   }
 
-  const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${ipAddress}`);
+  const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isValidHostname(ipAddressOrDomain) ? `domain` : 'ipAddress'}=${ipAddressOrDomain}`);
   const geoData = await geoResponse.json();
   return geoData;
 }
