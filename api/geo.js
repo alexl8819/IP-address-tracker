@@ -3,7 +3,6 @@ import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
-import isValidHostname from 'is-valid-hostname';
 
 const corsConfig = {
   origin: '*',
@@ -46,7 +45,7 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  if (!isIPv4(clientAddress) && !isIPv6(clientAddress) && !isValidHostname(clientAddress) && clientAddress !== 'localhost') {
+  if (!isIPv4(clientAddress) && !isIPv6(clientAddress)) {
     return cors(request, new Response(JSON.stringify({
       message: 'Bad request - Invalid query: Must be a valid IPv4, IPv6 address or hostname'
     }), {
@@ -141,7 +140,7 @@ async function locate (ipAddressOrDomain, apiKey) {
     throw new BalanceError('Credits are near zero');
   }
 
-  const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isValidHostname(ipAddressOrDomain) ? `domain` : 'ipAddress'}=${ipAddressOrDomain}`);
+  const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isIPv4(ipAddressOrDomain) || isIPv6(ipAddressOrDomain) ? `ipAddress` : 'domain'}=${ipAddressOrDomain}`);
   const geoData = await geoResponse.json();
   return geoData;
 }
