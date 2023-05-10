@@ -3,10 +3,10 @@ import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
-import isValidDomain from 'is-valid-domain';
 
 import { BalanceError, UpstreamError } from '../src/utilities/error';
 import { digestMessage } from '../src/utilities/hash';
+import isValidDomain from '../src/utilities/domain';
 
 const corsConfig = {
   origin: '*',
