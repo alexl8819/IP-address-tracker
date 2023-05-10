@@ -36,6 +36,7 @@
     "@vercel/kv": "^0.1.1",
     "edge-cors": "^0.2.1",
     "is-ip": "^5.0.0",
+    "is-valid-domain": "^0.1.6",
     "leaflet": "^1.9.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

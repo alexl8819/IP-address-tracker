@@ -3,9 +3,9 @@ import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
+import isValidDomain from 'is-valid-domain';
 
 import { BalanceError, UpstreamError } from '../src/utilities/error';
-import isValidHostname from '../src/utilities/hostname';
 import { digestMessage } from '../src/utilities/hash';
 
 const corsConfig = {
@@ -42,9 +42,9 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  if (!isIPv4(clientAddress) && !isIPv6(clientAddress) && !isValidHostname(clientAddress)) {
+  if (!isIPv4(clientAddress) && !isIPv6(clientAddress) && !isValidDomain(clientAddress)) {
     return cors(request, new Response(JSON.stringify({
-      message: 'Bad request - Invalid query: Must be a valid IPv4, IPv6 address or hostname'
+      message: 'Bad request - Invalid query: Must be a valid IPv4, IPv6 address or domain name'
     }), {
       status: 400,
       headers: {
