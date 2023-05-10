@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-// import isValidHostname from 'is-valid-hostname';
-// import { isIPv4, isIPv6 } from 'is-ip';
 import PropTypes from 'prop-types';
+
+import { isValidIP, isValidDomain } from '../utilities/net';
 
 const Title = styled.h1`
   font-size: 1.5rem;
@@ -123,9 +123,8 @@ export default function Header ({ ip, location, timezone, isp, runQuery }) {
   const handleQuery = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
-    const query = fd.get('query');
-    if (!query /*|| !isIPv4(query) || !isIPv6(query)*/) {
-      console.error('invalid query');
+    const query = fd.get('query').trim();
+    if (!query || !query.length || (!isValidDomain(query) && !isValidIP(query))) {
       return;
     }
     await runQuery(query);

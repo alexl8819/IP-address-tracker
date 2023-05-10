@@ -1,4 +1,12 @@
-export default function isValidDomain (domain) {
+import ipRegex from 'ip-regex';
+
+export function isValidIP (ip) {
+  return ipRegex({
+    exact: true
+  }).test(ip);
+}
+
+export function isValidDomain (domain) {
   return /(?=^.{4,253}\.?$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}\.?$)/.test(domain);
 }
 

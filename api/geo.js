@@ -2,11 +2,10 @@ import kv from '@vercel/kv';
 import { ipAddress, geolocation } from '@vercel/edge';
 import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
-import { isIPv4, isIPv6 } from 'is-ip';
 
 import { BalanceError, UpstreamError } from '../src/utilities/error';
 import { digestMessage } from '../src/utilities/hash';
-import isValidDomain from '../src/utilities/domain';
+import { isValidIP, isValidDomain } from '../src/utilities/net';
 
 const corsConfig = {
   origin: '*',
@@ -20,7 +19,7 @@ export const config = {
 export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
   const query = new URL(request.url).searchParams.get('query');
-  const clientAddress = query ? Buffer.from(query, 'base64').toString() : ipAddress(request);
+  const clientAddress = query ? Buffer.from(query, 'base64').toString().trim() : ipAddress(request);
 
   const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
@@ -42,7 +41,7 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  if (!isIPv4(clientAddress) && !isIPv6(clientAddress) && !isValidDomain(clientAddress)) {
+  if (!isValidIP(clientAddress) && !isValidDomain(clientAddress)) {
     return cors(request, new Response(JSON.stringify({
       message: 'Bad request - Invalid query: Must be a valid IPv4, IPv6 address or domain name'
     }), {
@@ -137,7 +136,7 @@ async function locate (ipAddressOrDomain, apiKey) {
     throw new BalanceError('Credits are near zero');
   }
 
-  const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isIPv4(ipAddressOrDomain) || isIPv6(ipAddressOrDomain) ? `ipAddress` : 'domain'}=${ipAddressOrDomain}`);
+  const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isValidIP(ipAddressOrDomain) ? `ipAddress` : 'domain'}=${ipAddressOrDomain}`);
   
   if (!geoResponse.ok && geoResponse.status === 400) {
     throw new UpstreamError('Bad request due to query');
