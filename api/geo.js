@@ -4,7 +4,9 @@ import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
 
-import { isValidHostname } from '../shared/util';
+import { BalanceError } from '../src/utilities/error';
+import isValidHostname from '../src/utilities/hostname';
+import { digestMessage } from '../src/utilities/hash';
 
 const corsConfig = {
   origin: '*',
@@ -15,26 +17,19 @@ export const config = {
   runtime: 'edge',
 };
 
-class BalanceError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = 'BalanceError';
-  }
-}
-
 export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
   const query = new URL(request.url).searchParams.get('query');
   const clientAddress = query ? Buffer.from(query, 'base64').toString() : ipAddress(request);
 
-  // const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
+  const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
   const ratelimit = new Ratelimit({
     redis: kv,
     limiter: Ratelimit.slidingWindow(10, '10 s')
   });
 
-  const { success } = await ratelimit.limit(clientAddress);
+  const { success } = await ratelimit.limit(hashedAddress);
 
   if (!success) {
     return cors(request, new Response(JSON.stringify({
@@ -61,13 +56,13 @@ export default async function handler (request) {
   let cachedResponse;
 
   try {
-    cachedResponse = await kv.get(clientAddress);
+    cachedResponse = await kv.get(hashedAddress);
   } catch (err) {
     console.error(err);
   }
   
   if (cachedResponse) {
-    console.log(`Cached response for ${clientAddress}`);
+    console.log(`Cached response for ${hashedAddress}`);
     return cors(request, new Response(JSON.stringify(cachedResponse), {
       status: 200,
       headers: {
@@ -125,7 +120,7 @@ export default async function handler (request) {
     location,
     isp
   });
-  await kv.set(ip, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs to prevent abuse
+  await kv.set(hashedAddress, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs to prevent abuse
   return cors(request, new Response(response, {
     status: 200,
     headers: {
@@ -146,12 +141,3 @@ async function locate (ipAddressOrDomain, apiKey) {
   const geoData = await geoResponse.json();
   return geoData;
 }
-
-/*async function digestMessage (message) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-  return hashHex;
-}*/

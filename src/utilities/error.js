@@ -1,3 +1,10 @@
+export class BalanceError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'BalanceError';
+  }
+}
+
 export class RateLimitError extends Error {
   constructor (message) {
     super(message);
