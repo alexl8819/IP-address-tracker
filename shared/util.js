@@ -1,4 +1,4 @@
-export default function isValidHostname (hostname) {
+export function isValidHostname (hostname) {
   return /^([a-zA-Z0-9](?:(?:[a-zA-Z0-9-]*|(?<!-)\.(?![-.]))*[a-zA-Z0-9]+)?)$/.test(hostname);
 }
 

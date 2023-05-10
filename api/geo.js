@@ -4,7 +4,7 @@ import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
 
-import isValidHostname from './shared/util';
+import { isValidHostname } from './shared/util';
 
 const corsConfig = {
   origin: '*',
