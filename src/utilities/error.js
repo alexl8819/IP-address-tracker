@@ -5,6 +5,13 @@ export class BalanceError extends Error {
   }
 }
 
+export class UpstreamError extends Error {
+  constructor (message) {
+    super(message);
+    this.name = 'UpstreamError';
+  }
+}
+
 export class RateLimitError extends Error {
   constructor (message) {
     super(message);

@@ -4,7 +4,7 @@ import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
 
-import { BalanceError } from '../src/utilities/error';
+import { BalanceError, UpstreamError } from '../src/utilities/error';
 import isValidHostname from '../src/utilities/hostname';
 import { digestMessage } from '../src/utilities/hash';
 
@@ -88,7 +88,7 @@ export default async function handler (request) {
     geoIp = await locate(clientAddress, API_KEY);
   } catch (err) {
     console.error(err);
-    if (err instanceof BalanceError) { // use fallback measure
+    if (err instanceof BalanceError && !query) { // use fallback measure
       const { region, city, country, latitude, longitude } = geolocation(request);
       geoIp = {
         ip: clientAddress,
@@ -138,6 +138,11 @@ async function locate (ipAddressOrDomain, apiKey) {
   }
 
   const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isIPv4(ipAddressOrDomain) || isIPv6(ipAddressOrDomain) ? `ipAddress` : 'domain'}=${ipAddressOrDomain}`);
+  
+  if (!geoResponse.ok && geoResponse.status === 400) {
+    throw new UpstreamError('Bad request due to query');
+  }
+
   const geoData = await geoResponse.json();
   return geoData;
 }
