@@ -4,6 +4,8 @@ import { Ratelimit } from '@upstash/ratelimit';
 import cors from 'edge-cors';
 import { isIPv4, isIPv6 } from 'is-ip';
 
+import isValidHostname from './shared/util';
+
 const corsConfig = {
   origin: '*',
   methods: 'GET,HEAD',
@@ -45,7 +47,7 @@ export default async function handler (request) {
     }), corsConfig);
   }
 
-  if (!isIPv4(clientAddress) && !isIPv6(clientAddress)) {
+  if (!isIPv4(clientAddress) && !isIPv6(clientAddress) && !isValidHostname(clientAddress)) {
     return cors(request, new Response(JSON.stringify({
       message: 'Bad request - Invalid query: Must be a valid IPv4, IPv6 address or hostname'
     }), {
