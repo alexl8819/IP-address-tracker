@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import styled from 'styled-components';
 
-import Header from './components/Header';
+import TrackerHeader from './components/Header';
 import Map from './components/Map';
 import Loading from './components/Loading';
 
@@ -55,7 +55,7 @@ export default function App () {
     const { region, city, country, postalCode, lat, lng, timezone } = location;
     setGeolocation({
       ip,
-      location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`,
+      location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`.trim(),
       coords: [lat, lng],
       timezone,
       isp
@@ -63,14 +63,14 @@ export default function App () {
   }
 
   useEffect(() => {
-    runQuery();
+    // runQuery();
   }, []);
 
   return (
     <AppContainer>
       <TrackerMapContainer>
         <Suspense fallback={Loading}>
-          <Header ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={runQuery} />
+          <TrackerHeader ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={runQuery} />
           <Map coords={geolocation.coords} />
         </Suspense>
       </TrackerMapContainer>

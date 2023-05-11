@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { isValidIP, isValidDomain } from '../utilities/net';
+import QueryBar from './QueryBar';
 
 const Title = styled.h1`
   font-size: 1.5rem;
@@ -17,45 +17,6 @@ const HeaderContainer = styled.header`
   padding-right: 25px;
   position: relative;
   z-index: 1;
-`;
-
-const QueryBar = styled.form`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 25px;
-`;
-
-const QueryInput = styled.input`
-  border: none;
-  font-size: 18px;
-  padding: 15px 29px;
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-  width: 85%;
-
-  &:active, &:focus {
-    outline: none;
-  }
-`;
-
-const QuerySubmitBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  background-color: var(--very-dark-grey);
-  padding: 22px 15px;
-  border: none;
-  height: 58px;
-  cursor: pointer;
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  width: 15%;
-
-  &:hover {
-    background-color: var(--dark-grey);
-  }
 `;
 
 const ResultView = styled.ol` 
@@ -118,69 +79,42 @@ const ResultValue = styled.p`
   }
 `;
 
-export default function Header ({ ip, location, timezone, isp, runQuery }) {
-  const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
-  const handleQuery = async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const query = fd.get('query').trim();
-    if (!query || !query.length || (!isValidDomain(query) && !isValidIP(query))) {
-      return;
-    }
-    await runQuery(query);
-  };
+export default function TrackerHeader ({ ip, location, timezone, isp, runQuery }) {
   return (
     <HeaderContainer>
       <Title>IP Address Tracker</Title>
-      <QueryBar onSubmit={handleQuery} noValidate>
-        <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={ip} required />
-        <QuerySubmitBtn type="submit">
-          <img src={ArrowIcon} alt="arrow icon" />
-        </QuerySubmitBtn>
-      </QueryBar>
+      <QueryBar runQuery={runQuery} defaultValue={ip} />
       <ResultView>
-        { 
-          ip ? 
-          <Result>
-            <InnerResult>
-              <ResultTitle>ip address</ResultTitle>
-              <ResultValue>{ip}</ResultValue>
-            </InnerResult>
-          </Result> : null
-        }
-        {
-          location ?
-          <Result>
-            <InnerResult>
-              <ResultTitle>location</ResultTitle>
-              <ResultValue>{location}</ResultValue>
-            </InnerResult>
-          </Result> : null
-        }
-        {
-          timezone ?
-          <Result>
-            <InnerResult>
-              <ResultTitle>timezone</ResultTitle>
-              <ResultValue>UTC {timezone}</ResultValue>
-            </InnerResult>
-          </Result> : null
-        }
-        {
-          isp ?
-          <Result>
-            <InnerResult>
-              <ResultTitle>isp</ResultTitle>
-              <ResultValue>{isp}</ResultValue>
-            </InnerResult>
-          </Result> : null
-        }
+        <Result>
+          <InnerResult>
+            <ResultTitle>ip address</ResultTitle>
+            <ResultValue>{ip}</ResultValue>
+          </InnerResult>
+        </Result>
+        <Result>
+          <InnerResult>
+            <ResultTitle>location</ResultTitle>
+            <ResultValue>{location}</ResultValue>
+          </InnerResult>
+        </Result>
+        <Result>
+          <InnerResult>
+            <ResultTitle>timezone</ResultTitle>
+            <ResultValue>{timezone ? `UTC ${timezone}` : timezone}</ResultValue>
+          </InnerResult>
+        </Result>
+        <Result>
+          <InnerResult>
+            <ResultTitle>isp</ResultTitle>
+            <ResultValue>{isp}</ResultValue>
+          </InnerResult>
+        </Result>
       </ResultView>
     </HeaderContainer>
   );
 }
 
-Header.propTypes = {
+TrackerHeader.propTypes = {
   ip: PropTypes.string,
   location: PropTypes.string,
   timezone: PropTypes.string,

@@ -1,5 +1,4 @@
 import L from 'leaflet';
-import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
@@ -23,7 +22,7 @@ function LocationMarker ({ coords }) {
 
 export default function Map ({ coords }) {
   if (!coords.length) {
-    return null;
+    coords = [51.505, -0.09];
   }
 
   return (
