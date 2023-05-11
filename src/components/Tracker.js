@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import TrackerHeader from './Header';
+import TrackerResult from './Result';
 import TrackerMap from './Map';
 
 import { getLocation } from '../utilities/query';
@@ -19,14 +19,22 @@ const TrackerMapContainer = styled.div`
   }
 `;
 
+const isLocal = window ? (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') : false;
+
 export default function IPAddressTracker () {
-  const [geolocation, setGeolocation] = useState({ coords: [] });
+  const [geolocation, setGeolocation] = useState({ 
+    ip: '', 
+    location: '', 
+    timezone: '', 
+    coords: [], 
+    isp: '' 
+  });
   const [error, setError] = useState('');
   
   const runQuery = async (query = null) => {
     let initialLanding;
     try {
-      initialLanding = await getLocation('https://ip-address-tracker-eight-blush.vercel.app/', query);
+      initialLanding = await getLocation(isLocal ? 'https://ip-address-tracker-eight-blush.vercel.app/' : '/', query);
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {
@@ -51,7 +59,7 @@ export default function IPAddressTracker () {
 
   return (
     <TrackerMapContainer>
-      <TrackerHeader ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={runQuery} />
+      <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={runQuery} />
       <TrackerMap coords={geolocation.coords} />
     </TrackerMapContainer>
   );

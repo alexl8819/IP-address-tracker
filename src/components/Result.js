@@ -11,7 +11,7 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const HeaderContainer = styled.header`
+const ResultContainer = styled.header`
   height: 280px;
   padding-top: 15px;
   padding-left: 25px;
@@ -80,11 +80,11 @@ const ResultValue = styled.p`
   }
 `;
 
-export default function TrackerHeader ({ ip, location, timezone, isp, runQuery }) {
+export default function TrackerResult ({ ip, location, timezone, isp, runQuery }) {
   return (
-    <HeaderContainer>
+    <ResultContainer>
       <Title>IP Address Tracker</Title>
-      <QueryBar runQuery={runQuery} defaultValue={ip} />
+      <QueryBar runQuery={runQuery} result={ip} />
       <ResultView>
         <Result>
           <InnerResult>
@@ -111,11 +111,11 @@ export default function TrackerHeader ({ ip, location, timezone, isp, runQuery }
           </InnerResult>
         </Result>
       </ResultView>
-    </HeaderContainer>
+    </ResultContainer>
   );
 }
 
-TrackerHeader.propTypes = {
+TrackerResult.propTypes = {
   ip: PropTypes.string,
   location: PropTypes.string,
   timezone: PropTypes.string,
