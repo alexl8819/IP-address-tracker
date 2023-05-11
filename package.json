@@ -41,7 +41,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
-    "styled-components": "^5.3.10"
+    "react-loading-skeleton": "^3.3.1",
+    "styled-components": "^5.3.10",
+    "use-suspender": "^2.0.0-beta.0"
   },
   "resolutions": {
     "styled-components": "^5"

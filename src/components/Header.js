@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import QueryBar from './QueryBar';
+import Loading from './Loading';
 
 const Title = styled.h1`
   font-size: 1.5rem;
@@ -88,25 +89,25 @@ export default function TrackerHeader ({ ip, location, timezone, isp, runQuery }
         <Result>
           <InnerResult>
             <ResultTitle>ip address</ResultTitle>
-            <ResultValue>{ip}</ResultValue>
+            <ResultValue>{ip || <Loading />}</ResultValue>
           </InnerResult>
         </Result>
         <Result>
           <InnerResult>
             <ResultTitle>location</ResultTitle>
-            <ResultValue>{location}</ResultValue>
+            <ResultValue>{location || <Loading />}</ResultValue>
           </InnerResult>
         </Result>
         <Result>
           <InnerResult>
             <ResultTitle>timezone</ResultTitle>
-            <ResultValue>{timezone ? `UTC ${timezone}` : timezone}</ResultValue>
+            <ResultValue>{timezone ? `UTC ${timezone}` : <Loading />}</ResultValue>
           </InnerResult>
         </Result>
         <Result>
           <InnerResult>
             <ResultTitle>isp</ResultTitle>
-            <ResultValue>{isp}</ResultValue>
+            <ResultValue>{isp || <Loading />}</ResultValue>
           </InnerResult>
         </Result>
       </ResultView>

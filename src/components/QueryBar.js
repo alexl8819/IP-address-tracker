@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -43,7 +44,10 @@ const QuerySubmitBtn = styled.button`
 `;
 
 export default function QueryBar ({ runQuery, defaultValue }) {
+  const [disabled, setDisabled] = useState(false);
+  
   const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
+  
   const handleQuery = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -51,12 +55,15 @@ export default function QueryBar ({ runQuery, defaultValue }) {
     if (!query || !query.length || (!isValidDomain(query) && !isValidIP(query))) {
       return;
     }
+    setDisabled(true);
     await runQuery(query);
+    setDisabled(false);
   };
+
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>
-      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={defaultValue} />
-      <QuerySubmitBtn type="submit">
+      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={defaultValue} disabled={disabled} />
+      <QuerySubmitBtn type="submit" disabled={disabled}>
         <img src={ArrowIcon} alt="arrow icon" />
       </QuerySubmitBtn>
     </QueryContainer>

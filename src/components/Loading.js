@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-export default function Loading () {
-  return (<h2>Loading..</h2>);
+export default function Loading (lines = 1) {
+  return (
+    <Skeleton />
+  );
 }

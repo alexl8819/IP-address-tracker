@@ -20,7 +20,7 @@ function LocationMarker ({ coords }) {
   );
 }
 
-export default function Map ({ coords }) {
+export default function TrackerMap ({ coords }) {
   if (!coords.length) {
     coords = [51.505, -0.09];
   }
