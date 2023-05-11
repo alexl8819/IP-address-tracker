@@ -43,17 +43,17 @@ const Result = styled.li`
     text-align: left;
     padding: 8px 25px;
     margin-bottom: 0;
+
+    &:last-child div {
+      border-right: none;
+    }
   }
 `;
 
-const InnerResult = styled.div`
+const InnerResult = styled.div`  
   @media screen and (min-width: 1024px) {
     margin-right: 10px;
     border-right: 1px solid var(--light-grey);
-  }
-
-  &:last-child {
-    border-right: none;
   }
 `;
 
