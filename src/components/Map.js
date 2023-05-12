@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
 import icon from '../images/icon-location.svg';
@@ -11,20 +11,12 @@ L.Marker.prototype.options.icon = L.icon({
   iconUrl: icon,
 });
 
-function LocationMarker ({ coords }) {
-  const map = useMap();
-  map.flyTo(coords, map.getZoom());
-  
-  return !coords.length === null ? null : (
-    <Marker position={coords}></Marker>
-  );
-}
+const DEFAULT_COORDS = [51.505, -0.09];
 
 export default function TrackerMap ({ coords }) {
   if (!coords.length) {
-    coords = [51.505, -0.09];
+    coords = DEFAULT_COORDS;
   }
-
   return (
     <MapContainer center={coords} zoom={13} scrollWheelZoom={false} zoomControl={false}>
       <TileLayer
@@ -36,6 +28,17 @@ export default function TrackerMap ({ coords }) {
   );
 }
 
-Map.propTypes = {
+TrackerMap.propTypes = {
   coords: PropTypes.array
 };
+
+function LocationMarker ({ coords }) {
+  const map = useMap();
+  map.flyTo(coords, map.getZoom());
+  
+  return !coords.length === null ? null : (
+    <Marker position={coords}>
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+}

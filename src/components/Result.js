@@ -41,7 +41,7 @@ const Result = styled.li`
 
   @media screen and (min-width: 1024px) {
     text-align: left;
-    padding: 8px 25px;
+    padding: 8px 5px;
     margin-bottom: 0;
 
     &:last-child div {
@@ -52,7 +52,9 @@ const Result = styled.li`
 
 const InnerResult = styled.div`  
   @media screen and (min-width: 1024px) {
-    margin-right: 10px;
+    width: 250px;
+    min-height: 95px;
+    padding: 0 15px;
     border-right: 1px solid var(--light-grey);
   }
 `;
@@ -80,11 +82,11 @@ const ResultValue = styled.p`
   }
 `;
 
-export default function TrackerResult ({ ip, location, timezone, isp, runQuery }) {
+export default function TrackerResult ({ ip, location, timezone, isp, updateQuery }) {
   return (
     <ResultContainer>
       <Title>IP Address Tracker</Title>
-      <QueryBar runQuery={runQuery} result={ip} />
+      <QueryBar updateQuery={updateQuery} result={ip} />
       <ResultView>
         <Result>
           <InnerResult>

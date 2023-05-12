@@ -41,32 +41,37 @@ const QuerySubmitBtn = styled.button`
   &:hover {
     background-color: var(--dark-grey);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--very-dark-grey);
+  }
 `;
 
-export default function QueryBar ({ result, runQuery }) {
+export default function QueryBar ({ result, updateQuery }) {
   const [disabled, setDisabled] = useState(false);
   
   const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
   
-  const handleQuery = async (e) => {
+  const handleQuery = (e) => {
     e.preventDefault();
 
     const query = new FormData(e.target).get('query').trim();
 
-    setDisabled(true);
-
     if (!query || !query.length || (!isValidDomain(query) && !isValidIP(query))) {
-      setDisabled(false);
       return;
     }
 
-    await runQuery(query);
-    setDisabled(false);
+    updateQuery(query);
   };
+
+  const handleChange = (e) => {
+    setDisabled(!e.target.value.length);
+  }
 
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>
-      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={result} disabled={disabled} />
+      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" onChange={handleChange} defaultValue={result} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
         <img src={ArrowIcon} alt="arrow icon" />
       </QuerySubmitBtn>

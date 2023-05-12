@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { LRUCache } from 'lru-cache';
 import styled from 'styled-components';
 
 import TrackerResult from './Result';
@@ -21,17 +22,30 @@ const TrackerMapContainer = styled.div`
 
 const isLocal = window ? (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') : false;
 
+const emptyState = { 
+  ip: '', 
+  location: '', 
+  timezone: '', 
+  coords: [], 
+  isp: '' 
+};
+
+const cache = new LRUCache({ max: 50 }); // cache repeat requests that have already been made
+
 export default function IPAddressTracker () {
-  const [geolocation, setGeolocation] = useState({ 
-    ip: '', 
-    location: '', 
-    timezone: '', 
-    coords: [], 
-    isp: '' 
-  });
+  const [query, setQuery] = useState('');
   const [error, setError] = useState('');
+  const [geolocation, setGeolocation] = useState(emptyState);
   
-  const runQuery = async (query = null) => {
+  const runQuery = async () => {
+    const existingQuery = cache.get(query);
+    if (query && query.length && existingQuery) {
+      setGeolocation(existingQuery);
+      return;
+    }
+    setGeolocation(Object.assign({}, emptyState, {
+      coords: geolocation.coords // we don't want to trigger a change in coords prematurely
+    }));
     let initialLanding;
     try {
       initialLanding = await getLocation(isLocal ? 'https://ip-address-tracker-eight-blush.vercel.app/' : '/', query);
@@ -44,22 +58,24 @@ export default function IPAddressTracker () {
     }
     const { ip, location, isp } = initialLanding;
     const { region, city, country, postalCode, lat, lng, timezone } = location;
-    setGeolocation({
+    const result = {
       ip,
       location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`.trim(),
       coords: [lat, lng],
       timezone,
       isp
-    });
+    };
+    cache.set(query || ip, result);
+    setGeolocation(result);
   };
 
   useEffect(() => {
     runQuery();
-  }, []);
+  }, [query]);
 
   return (
     <TrackerMapContainer>
-      <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} runQuery={runQuery} />
+      <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} updateQuery={setQuery} />
       <TrackerMap coords={geolocation.coords} />
     </TrackerMapContainer>
   );
