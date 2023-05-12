@@ -1,9 +1,6 @@
-import { lazy, Suspense } from 'react';
 import styled from 'styled-components';
 
-import Loading from './components/Loading';
-
-const IPAddressTracker = lazy(() => import('./components/Tracker'));
+import IPAddressTracker from './components/Tracker';
 
 const AppContainer = styled.div`
   display: flex;
@@ -24,9 +21,7 @@ const AppContainer = styled.div`
 export default function App () {
   return (
     <AppContainer>
-      <Suspense fallback={<Loading />}>
-        <IPAddressTracker />
-      </Suspense>
+      <IPAddressTracker />
     </AppContainer>
   );
 }
