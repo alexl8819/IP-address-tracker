@@ -12,7 +12,7 @@
 }
 
 .leaflet-container {
-  height: 400px;
+  height: 100vw;
   width: 100vw;
   z-index: 0;
 }

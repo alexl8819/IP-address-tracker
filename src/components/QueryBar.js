@@ -11,6 +11,10 @@ const QueryContainer = styled.form`
   align-items: center;
   margin-top: 10px;
   margin-bottom: 25px;
+
+  @media screen and (min-width: 1024px) {
+    width: 32rem;
+  }
 `;
 
 const QueryInput = styled.input`
@@ -19,7 +23,8 @@ const QueryInput = styled.input`
   padding: 15px 29px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
-  width: 85%;
+  width: 89%;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   &:active, &:focus {
     outline: none;
@@ -36,7 +41,7 @@ const QuerySubmitBtn = styled.button`
   cursor: pointer;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
-  width: 15%;
+  width: 11%;
 
   &:hover {
     background-color: var(--dark-grey);
@@ -65,13 +70,9 @@ export default function QueryBar ({ result, updateQuery }) {
     updateQuery(query);
   };
 
-  const handleChange = (e) => {
-    setDisabled(!e.target.value.length);
-  }
-
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>
-      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" onChange={handleChange} defaultValue={result} />
+      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" onChange={(e) => setDisabled(!e.target.value.length)} defaultValue={result} disabled={disabled} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
         <img src={ArrowIcon} alt="arrow icon" />
       </QuerySubmitBtn>

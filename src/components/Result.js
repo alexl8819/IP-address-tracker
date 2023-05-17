@@ -5,31 +5,54 @@ import QueryBar from './QueryBar';
 import Loading from './Loading';
 
 const Title = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 500;
   color: var(--white);
   text-align: center;
+  margin-bottom: 10px;
 `;
 
 const ResultContainer = styled.header`
-  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding-top: 15px;
   padding-left: 25px;
   padding-right: 25px;
   position: relative;
   z-index: 1;
+
+  @media screen and (min-width: 1024px) {
+    height: 350px;
+    padding-top: 50px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: 240px;
+    padding-top: 125px;
+  }
 `;
 
 const ResultView = styled.ol` 
   display: flex;
   flex-direction: column;
   list-style-type: none;
+  width: 100%;
   padding: 15px 0;
   background-color: var(--white);
   border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   @media screen and (min-width: 1024px) {
+    width: 52rem;
     flex-direction: row;
+    justify-content: space-evenly;
+    padding: 25px 5px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: 64rem;
   }
 `;
 
@@ -52,7 +75,7 @@ const Result = styled.li`
 
 const InnerResult = styled.div`  
   @media screen and (min-width: 1024px) {
-    width: 250px;
+    min-width: 200px;
     min-height: 95px;
     padding: 0 15px;
     border-right: 1px solid var(--light-grey);
