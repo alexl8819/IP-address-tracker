@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { LRUCache } from 'lru-cache';
+import { ToastContainer, toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import TrackerResult from './Result';
 import TrackerMap from './Map';
 
 import { getLocation } from '../utilities/query';
-import { RateLimitError } from '../utilities/error';
+import { InvalidRequestError, RateLimitError, ServerRelatedError } from '../utilities/error';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const TrackerMapContainer = styled.div`
   display: flex;
@@ -34,15 +37,15 @@ const cache = new LRUCache({ max: 50 }); // cache repeat requests that have alre
 
 export default function IPAddressTracker () {
   const [query, setQuery] = useState('');
-  const [error, setError] = useState('');
   const [geolocation, setGeolocation] = useState(emptyState);
   
   const runQuery = async () => {
-    const existingQuery = cache.get(query);
+    const existingQuery = cache.get(query); // aggressively cache queries that have already been executed
     if (query && query.length && existingQuery) {
       setGeolocation(existingQuery);
       return;
     }
+    const prevState = geolocation; // save previous state in case of error
     setGeolocation(Object.assign({}, emptyState, {
       coords: geolocation.coords // we don't want to trigger a change in coords prematurely
     }));
@@ -52,19 +55,25 @@ export default function IPAddressTracker () {
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {
-        setError('RATE_LIMITED'); 
+        toast.error('Rate limited: Wait 10 seconds and try again.'); 
+      } else if (err instanceof InvalidRequestError) {
+        toast.error(`Invalid request: "${query}" did not return any results`);
+      } else if (err instanceof ServerRelatedError) {
+        toast.error('Server-related error occured: Try again later.');
       }
+      // Rollback prev state
+      setGeolocation(prevState);
       return;
     }
     const { ip, location, isp } = initialLanding;
     const { region, city, country, postalCode, lat, lng, timezone } = location;
-    const result = {
+    const result = Object.freeze({
       ip,
       location: `${city}, ${region} ${country !== 'US' ? country : ''} ${postalCode || ''}`.trim(),
       coords: [lat, lng],
       timezone,
       isp
-    };
+    });
     cache.set(query || ip, result);
     setGeolocation(result);
   };
@@ -74,9 +83,22 @@ export default function IPAddressTracker () {
   }, [query]);
 
   return (
-    <TrackerMapContainer>
-      <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} updateQuery={setQuery} />
-      <TrackerMap coords={geolocation.coords} />
-    </TrackerMapContainer>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="colored"
+      />
+      <TrackerMapContainer>
+        <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} updateQuery={setQuery} />
+        <TrackerMap coords={geolocation.coords} />
+      </TrackerMapContainer>
+    </>
   );
 }

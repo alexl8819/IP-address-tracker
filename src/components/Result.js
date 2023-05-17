@@ -25,8 +25,8 @@ const ResultContainer = styled.header`
   z-index: 1;
 
   @media screen and (min-width: 1024px) {
-    height: 56px;
-    padding-top: 15px;
+    height: 200px;
+    padding-top: 150px;
   }
 
   @media screen and (min-width: 1280px) {
@@ -60,6 +60,7 @@ const ResultView = styled.ol`
 const Result = styled.li`
   display: flex;
   flex-direction: column;
+  width: 100%;
   text-align: center;
   margin-bottom: 15px;
 
