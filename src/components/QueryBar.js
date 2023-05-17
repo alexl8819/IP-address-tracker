@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -23,11 +23,15 @@ const QueryInput = styled.input`
   padding: 15px 29px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
-  width: 89%;
+  width: 85%;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   &:active, &:focus {
     outline: none;
+  }
+
+  @media screen and (min-width: 1024px) {
+    width: 89%;
   }
 `;
 
@@ -41,7 +45,7 @@ const QuerySubmitBtn = styled.button`
   cursor: pointer;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
-  width: 11%;
+  width: 15%;
 
   &:hover {
     background-color: var(--dark-grey);
@@ -51,11 +55,15 @@ const QuerySubmitBtn = styled.button`
     cursor: not-allowed;
     background-color: var(--very-dark-grey);
   }
+
+  @media screen and (min-width: 1024px) {
+    width: 11%;
+  }
 `;
 
 export default function QueryBar ({ result, updateQuery }) {
   const [disabled, setDisabled] = useState(false);
-  
+
   const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
   
   const handleQuery = (e) => {
@@ -69,6 +77,10 @@ export default function QueryBar ({ result, updateQuery }) {
 
     updateQuery(query);
   };
+
+  useEffect(() => {
+    setDisabled(result.length === 0);
+  }, [result]);
 
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>

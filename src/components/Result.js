@@ -17,18 +17,19 @@ const ResultContainer = styled.header`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 15px;
+  height: 300px;
+  padding-top: 175px;
   padding-left: 25px;
   padding-right: 25px;
   position: relative;
   z-index: 1;
 
   @media screen and (min-width: 1024px) {
-    height: 350px;
-    padding-top: 50px;
+    height: 56px;
+    padding-top: 15px;
   }
 
-  @media screen and (min-width: 1440px) {
+  @media screen and (min-width: 1280px) {
     height: 240px;
     padding-top: 125px;
   }
@@ -51,7 +52,7 @@ const ResultView = styled.ol`
     padding: 25px 5px;
   }
 
-  @media screen and (min-width: 1440px) {
+  @media screen and (min-width: 1280px) {
     width: 64rem;
   }
 `;
