@@ -17,6 +17,18 @@ const QueryContainer = styled.form`
   }
 `;
 
+const QueryLabel = styled.label`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+`;
+
 const QueryInput = styled.input`
   border: ${(props) => props.hasError ? '1px solid red' : 'none'};
   font-size: 18px;
@@ -84,6 +96,7 @@ export default function QueryBar ({ result, error, updateQuery }) {
 
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>
+      <QueryLabel htmlFor="query" />
       <QueryInput type="text" id="query" name="query" placeholder="Search for any IP address or domain" defaultValue={result} hasError={error} disabled={disabled} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
         <img src={ArrowIcon} alt="arrow icon" />
