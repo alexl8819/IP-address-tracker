@@ -76,19 +76,24 @@ const Result = styled.li`
 
 const InnerResult = styled.div`  
   @media screen and (min-width: 1024px) {
-    min-width: 200px;
-    min-height: 95px;
+    min-width: 180px;
+    height: 100px;
     padding: 0 15px;
     border-right: 1px solid var(--light-grey);
+  }
+
+  @media screen and (min-width: 1280px) {
+    height: 75px;
   }
 `;
 
 const ResultTitle = styled.p`
   font-size: 0.675rem;
   color: var(--dark-grey);
-  font-weight: 500;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.13em;
+  margin-top: -5px;
   margin-bottom: 8px;
 
   @media screen and (min-width: 1024px) {

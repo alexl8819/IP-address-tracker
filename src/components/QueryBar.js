@@ -84,7 +84,7 @@ export default function QueryBar ({ result, updateQuery }) {
 
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>
-      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" onChange={(e) => setDisabled(!e.target.value.length)} defaultValue={result} disabled={disabled} />
+      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={result} disabled={disabled} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
         <img src={ArrowIcon} alt="arrow icon" />
       </QuerySubmitBtn>
