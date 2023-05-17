@@ -18,7 +18,7 @@ const QueryContainer = styled.form`
 `;
 
 const QueryInput = styled.input`
-  border: none;
+  border: ${(props) => props.hasError ? '1px solid red' : 'none'};
   font-size: 18px;
   padding: 15px 29px;
   border-top-left-radius: 12px;
@@ -61,7 +61,7 @@ const QuerySubmitBtn = styled.button`
   }
 `;
 
-export default function QueryBar ({ result, updateQuery }) {
+export default function QueryBar ({ result, error, updateQuery }) {
   const [disabled, setDisabled] = useState(false);
 
   const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
@@ -84,7 +84,7 @@ export default function QueryBar ({ result, updateQuery }) {
 
   return (
     <QueryContainer onSubmit={handleQuery} noValidate>
-      <QueryInput type="text" name="query" placeholder="Search for any IP address or domain" defaultValue={result} disabled={disabled} />
+      <QueryInput type="text" id="query" name="query" placeholder="Search for any IP address or domain" defaultValue={result} hasError={error} disabled={disabled} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
         <img src={ArrowIcon} alt="arrow icon" />
       </QuerySubmitBtn>
@@ -93,6 +93,7 @@ export default function QueryBar ({ result, updateQuery }) {
 }
 
 QueryBar.propTypes = {
+  result: PropTypes.string,
   runQuery: PropTypes.func,
-  result: PropTypes.string
+  error: PropTypes.bool
 };

@@ -33,10 +33,11 @@ const emptyState = {
   isp: '' 
 };
 
-const cache = new LRUCache({ max: 50 }); // cache repeat requests that have already been made
+const cache = new LRUCache({ max: 100 }); // cache repeat requests that have already been made
 
 export default function IPAddressTracker () {
   const [query, setQuery] = useState('');
+  const [error, setError] = useState(false);
   const [geolocation, setGeolocation] = useState(emptyState);
   
   const runQuery = async () => {
@@ -46,6 +47,7 @@ export default function IPAddressTracker () {
       return;
     }
     const prevState = geolocation; // save previous state in case of error
+    setError(false);
     setGeolocation(Object.assign({}, emptyState, {
       coords: geolocation.coords // we don't want to trigger a change in coords prematurely
     }));
@@ -61,6 +63,7 @@ export default function IPAddressTracker () {
       } else if (err instanceof ServerRelatedError) {
         toast.error('Server-related error occured: Try again later.');
       }
+      setError(true);
       // Rollback prev state
       setGeolocation(prevState);
       return;
@@ -96,7 +99,7 @@ export default function IPAddressTracker () {
         theme="colored"
       />
       <TrackerMapContainer>
-        <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} updateQuery={setQuery} />
+        <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} error={error} updateQuery={setQuery} />
         <TrackerMap coords={geolocation.coords} />
       </TrackerMapContainer>
     </>

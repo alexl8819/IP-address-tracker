@@ -112,11 +112,11 @@ const ResultValue = styled.p`
   }
 `;
 
-export default function TrackerResult ({ ip, location, timezone, isp, updateQuery }) {
+export default function TrackerResult ({ ip, location, timezone, isp, error, updateQuery }) {
   return (
     <ResultContainer>
       <Title>IP Address Tracker</Title>
-      <QueryBar updateQuery={updateQuery} result={ip} />
+      <QueryBar updateQuery={updateQuery} error={error} result={ip} />
       <ResultView>
         <Result>
           <InnerResult>
@@ -152,5 +152,6 @@ TrackerResult.propTypes = {
   location: PropTypes.string,
   timezone: PropTypes.string,
   isp: PropTypes.string,
+  error: PropTypes.bool,
   runQuery: PropTypes.func
 };
