@@ -87,7 +87,7 @@ export default async function handler (request) {
     geoIp = await locate(clientAddress, API_KEY);
   } catch (err) {
     console.error(err);
-    if (err instanceof BalanceError && !query) { // use fallback measure
+    if (err instanceof BalanceError && !query) { // use fallback measure only for initial request (non-queried)
       const { region, city, country, latitude, longitude } = geolocation(request);
       geoIp = {
         ip: clientAddress,
