@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -152,6 +153,6 @@ TrackerResult.propTypes = {
   location: PropTypes.string,
   timezone: PropTypes.string,
   isp: PropTypes.string,
-  error: PropTypes.bool,
-  runQuery: PropTypes.func
+  error: PropTypes.bool.isRequired,
+  updateQuery: PropTypes.func.isRequired
 };

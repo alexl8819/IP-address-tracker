@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -107,6 +107,6 @@ export default function QueryBar ({ result, error, updateQuery }) {
 
 QueryBar.propTypes = {
   result: PropTypes.string,
-  runQuery: PropTypes.func,
-  error: PropTypes.bool
+  updateQuery: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired
 };

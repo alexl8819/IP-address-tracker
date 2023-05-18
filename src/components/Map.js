@@ -1,3 +1,4 @@
+import React from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
@@ -14,7 +15,7 @@ L.Marker.prototype.options.icon = L.icon({
 const DEFAULT_COORDS = [51.505, -0.09];
 
 export default function TrackerMap ({ coords }) {
-  if (!coords.length) {
+  if (Array.isArray(coords) && !coords.length) {
     coords = DEFAULT_COORDS;
   }
   return (
@@ -29,7 +30,7 @@ export default function TrackerMap ({ coords }) {
 }
 
 TrackerMap.propTypes = {
-  coords: PropTypes.array
+  coords: PropTypes.array.isRequired
 };
 
 function LocationMarker ({ coords }) {
