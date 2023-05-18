@@ -6,9 +6,8 @@ import icon from '../images/icon-location.svg';
 
 import 'leaflet/dist/leaflet.css';
 
-// Parcel workaround: https://github.com/parcel-bundler/parcel/issues/973#issuecomment-484470626
-L.Marker.prototype.options.icon = L.icon({
-  iconUrl: icon,
+const customMarker = L.icon({
+  iconUrl: icon
 });
 
 const DEFAULT_COORDS = [51.505, -0.09];
@@ -35,7 +34,7 @@ function LocationMarker ({ coords }) {
   map.flyTo(coords, map.getZoom());
   
   return !coords.length === null ? null : (
-    <Marker position={coords}>
+    <Marker position={coords} icon={customMarker}>
       <Popup>You are here</Popup>
     </Marker>
   );
