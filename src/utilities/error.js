@@ -25,10 +25,3 @@ export class InvalidRequestError extends Error {
     this.name = 'InvalidRequestError';
   }
 }
-
-export class ServerRelatedError extends Error {
-  constructor (message) {
-    super(message);
-    this.name = 'ServerRelatedError';
-  }
-}

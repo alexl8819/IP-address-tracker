@@ -7,7 +7,7 @@ import TrackerResult from './Result';
 import TrackerMap from './Map';
 
 import { getLocation } from '../utilities/query';
-import { InvalidRequestError, RateLimitError, ServerRelatedError } from '../utilities/error';
+import { InvalidRequestError, RateLimitError, UpstreamError } from '../utilities/error';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -58,10 +58,8 @@ export default function IPAddressTracker () {
       console.error(err);
       if (err instanceof RateLimitError) {
         toast.error('Rate limited: Wait 10 seconds and try again.'); 
-      } else if (err instanceof InvalidRequestError) {
+      } else if (err instanceof InvalidRequestError || err instanceof UpstreamError) {
         toast.error(`Invalid request: "${query}" did not return any results`);
-      } else if (err instanceof ServerRelatedError) {
-        toast.error('Server-related error occured: Try again later.');
       }
       setError(true);
       // Rollback prev state

@@ -1,4 +1,4 @@
-import { RateLimitError, InvalidRequestError, ServerRelatedError } from './error';
+import { RateLimitError, InvalidRequestError, UpstreamError } from './error';
 import { Buffer } from 'buffer';
 
 export async function getLocation (base, query = null) {
@@ -7,9 +7,9 @@ export async function getLocation (base, query = null) {
     if (response.status === 429) {
       throw new RateLimitError('Too many requests');
     } else if (response.status === 400) {
-      throw new InvalidRequestError('Error in query');
+      throw new InvalidRequestError('Bad request');
     } else if (response.status === 500) {
-      throw new ServerRelatedError('Failed to process request');
+      throw new UpstreamError('Upstream API could not process request');
     }
   }
   const data = await response.json();
