@@ -1,4 +1,5 @@
 import { RateLimitError, InvalidRequestError, ServerRelatedError } from './error';
+import { Buffer } from 'buffer';
 
 export async function getLocation (base, query = null) {
   const response = await fetch(`${base}api/geo${query ? `?query=${encodeURIComponent(Buffer.from(query).toString('base64'))}` : ''}`);

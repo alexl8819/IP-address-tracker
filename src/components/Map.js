@@ -1,4 +1,3 @@
-import React from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
@@ -15,16 +14,14 @@ L.Marker.prototype.options.icon = L.icon({
 const DEFAULT_COORDS = [51.505, -0.09];
 
 export default function TrackerMap ({ coords }) {
-  if (Array.isArray(coords) && !coords.length) {
-    coords = DEFAULT_COORDS;
-  }
+  const usedCoords = !coords.length ? DEFAULT_COORDS : coords;
   return (
-    <MapContainer center={coords} zoom={13} scrollWheelZoom={false} zoomControl={false}>
+    <MapContainer center={usedCoords} zoom={13} scrollWheelZoom={false} zoomControl={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker coords={coords}></LocationMarker>
+      <LocationMarker coords={usedCoords}></LocationMarker>
     </MapContainer>
   );
 }
@@ -43,3 +40,7 @@ function LocationMarker ({ coords }) {
     </Marker>
   );
 }
+
+LocationMarker.propTypes = {
+  coords: PropTypes.array.isRequired
+};
