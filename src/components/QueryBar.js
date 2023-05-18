@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { isValidIP, isValidDomain } from '../utilities/net';
+import ArrowIcon from '../images/icon-arrow.svg';
 
 const QueryContainer = styled.form`
   display: flex;
@@ -75,8 +76,6 @@ const QuerySubmitBtn = styled.button`
 
 export default function QueryBar ({ result, error, updateQuery }) {
   const [disabled, setDisabled] = useState(false);
-
-  const ArrowIcon = new URL('../images/icon-arrow.svg', import.meta.url);
   
   const handleQuery = (e) => {
     e.preventDefault();
