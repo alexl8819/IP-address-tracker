@@ -1,3 +1,5 @@
+import 'cross-fetch/polyfill';
+
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
