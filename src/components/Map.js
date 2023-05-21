@@ -1,5 +1,5 @@
 import L from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
 import icon from '../images/icon-location.svg';
