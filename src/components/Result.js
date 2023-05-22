@@ -40,7 +40,7 @@ const ResultView = styled.ol`
   flex-direction: column;
   list-style-type: none;
   width: 100%;
-  padding: 15px 0;
+  padding: 25px 5px;
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -49,7 +49,6 @@ const ResultView = styled.ol`
     width: 52rem;
     flex-direction: row;
     justify-content: space-evenly;
-    padding: 25px 5px;
   }
 
   @media screen and (min-width: 1280px) {
