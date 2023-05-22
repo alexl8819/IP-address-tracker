@@ -3,6 +3,7 @@ import { useWorker } from '@koale/useworker';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import TrackerResult from './Result';
 import TrackerMap from './Map';
@@ -34,7 +35,7 @@ const emptyState = {
 
 const cache = new LRUCache({ max: 100 }); // cache repeat requests that have already been made
 
-export default function IPAddressTracker () {
+export default function IPAddressTracker ({ baseGeoUrl }) {
   const [query, setQuery] = useState('');
   const [error, setError] = useState(false);
   const [geolocation, setGeolocation] = useState(emptyState);
@@ -54,7 +55,7 @@ export default function IPAddressTracker () {
     }));
     let initialLanding;
     try {
-      initialLanding = await locationWorker('https://ip-address-tracker-eight-blush.vercel.app/', query);
+      initialLanding = await locationWorker(baseGeoUrl, query);
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {
@@ -103,4 +104,8 @@ export default function IPAddressTracker () {
       </TrackerMapContainer>
     </>
   );
+}
+
+IPAddressTracker.propTypes = {
+  baseGeoUrl: PropTypes.string.isRequired
 }

@@ -21,7 +21,7 @@ const AppContainer = styled.div`
 export default function App () {
   return (
     <AppContainer>
-      <IPAddressTracker />
+      <IPAddressTracker baseGeoUrl='https://ip-address-tracker-eight-blush.vercel.app/' />
     </AppContainer>
   );
 }
