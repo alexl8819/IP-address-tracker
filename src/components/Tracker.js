@@ -24,8 +24,6 @@ const TrackerMapContainer = styled.div`
   }
 `;
 
-const isLocal = window ? (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') : false;
-
 const emptyState = { 
   ip: '', 
   location: '', 
@@ -56,7 +54,7 @@ export default function IPAddressTracker () {
     }));
     let initialLanding;
     try {
-      initialLanding = await locationWorker(isLocal ? 'https://ip-address-tracker-eight-blush.vercel.app/' : '/', query);
+      initialLanding = await locationWorker('https://ip-address-tracker-eight-blush.vercel.app/', query);
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {
