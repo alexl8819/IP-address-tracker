@@ -3,8 +3,8 @@
   --light-grey: hsl(0, 9%, 87%);
   --dark-grey: hsl(0, 0%, 59%);
   --very-dark-grey: hsl(0, 0%, 17%);
-  --bg-mobile-pattern: url('/src/images/pattern-bg-mobile.png');
-  --bg-desktop-pattern: url('/src/images/pattern-bg-desktop.png');
+  --bg-mobile-pattern: url('/src/images/pattern-bg-mobile.png?as=webp');
+  --bg-desktop-pattern: url('/src/images/pattern-bg-desktop.png?as=webp');
 }
 
 #app {
