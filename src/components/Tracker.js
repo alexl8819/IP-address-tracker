@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useWorker } from '@koale/useworker';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -39,8 +38,6 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
   const [query, setQuery] = useState('');
   const [error, setError] = useState(false);
   const [geolocation, setGeolocation] = useState(emptyState);
-
-  const [locationWorker] = useWorker(getLocation);
   
   const runQuery = async () => {
     const existingQuery = cache.get(query); // aggressively cache queries that have already been executed
@@ -55,7 +52,7 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
     }));
     let initialLanding;
     try {
-      initialLanding = await locationWorker(baseGeoUrl, query);
+      initialLanding = await getLocation(baseGeoUrl, query);
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {

@@ -48,7 +48,6 @@
     "stylelint-config-standard": "^33.0.0"
   },
   "dependencies": {
-    "@koale/useworker": "^4.0.2",
     "@upstash/ratelimit": "^0.4.2",
     "@vercel/edge": "^0.3.4",
     "@vercel/kv": "^0.1.1",
