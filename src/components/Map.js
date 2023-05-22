@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
@@ -11,34 +12,37 @@ const DEFAULT_COORDS = [51.505, -0.09];
 const customMarker = createCustomMarkerIcon(icon);
 
 export default function TrackerMap ({ coords }) {
-  const usedCoords = !coords.length ? DEFAULT_COORDS : coords;
-  return (
-    <MapContainer center={usedCoords} zoom={13} scrollWheelZoom={false} zoomControl={false}>
+  const center = !coords.length ? DEFAULT_COORDS : coords;
+
+  const displayMap = useMemo(() => (
+    <MapContainer center={center} zoom={13} scrollWheelZoom={false} zoomControl={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         detectRetina={true}
       />
-      <LocationMarker coords={usedCoords} marker={customMarker}></LocationMarker>
+      <LocationMarker center={center} marker={customMarker}></LocationMarker>
     </MapContainer>
-  );
+  ), [center]);
+
+  return (<>{displayMap}</>);
 }
 
 TrackerMap.propTypes = {
   coords: PropTypes.array.isRequired
 };
 
-function LocationMarker ({ coords, marker }) {
+function LocationMarker ({ center, marker }) {
   const map = useMap();
-  map.flyTo(coords, map.getZoom());
+  map.flyTo(center, map.getZoom());
   
-  return !coords.length === null ? null : (
-    marker ? <Marker position={coords} icon={marker} /> : <Marker position={coords} />
+  return !center.length === null ? null : (
+    marker ? <Marker position={center} icon={marker} /> : <Marker position={center} />
   );
 }
 
 LocationMarker.propTypes = {
-  coords: PropTypes.array.isRequired,
+  center: PropTypes.array.isRequired,
   marker: PropTypes.instanceOf(L.Icon)
 };
 
