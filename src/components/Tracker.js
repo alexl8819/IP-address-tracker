@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useWorker } from '@koale/useworker';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -39,6 +40,8 @@ export default function IPAddressTracker () {
   const [query, setQuery] = useState('');
   const [error, setError] = useState(false);
   const [geolocation, setGeolocation] = useState(emptyState);
+
+  const [locationWorker] = useWorker(getLocation);
   
   const runQuery = async () => {
     const existingQuery = cache.get(query); // aggressively cache queries that have already been executed
@@ -53,7 +56,7 @@ export default function IPAddressTracker () {
     }));
     let initialLanding;
     try {
-      initialLanding = await getLocation(isLocal ? 'https://ip-address-tracker-eight-blush.vercel.app/' : '/', query);
+      initialLanding = await locationWorker(isLocal ? 'https://ip-address-tracker-eight-blush.vercel.app/' : '/', query);
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {
