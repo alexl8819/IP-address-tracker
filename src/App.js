@@ -13,7 +13,7 @@ const AppContainer = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     background-image: var(--bg-desktop-pattern);
   }
 `;

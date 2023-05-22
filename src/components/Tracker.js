@@ -18,7 +18,7 @@ const TrackerMapContainer = styled.div`
   align-items: center;
   max-width: 23.438rem;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     max-width: 62rem;
   }
 `;

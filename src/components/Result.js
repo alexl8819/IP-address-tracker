@@ -24,12 +24,12 @@ const ResultContainer = styled.header`
   position: relative;
   z-index: 1;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     height: 200px;
     padding-top: 150px;
   }
 
-  @media screen and (min-width: 1280px) {
+  @media screen and (width >= 1280px) {
     height: 240px;
     padding-top: 125px;
   }
@@ -43,15 +43,15 @@ const ResultView = styled.ol`
   padding: 25px 5px;
   background-color: var(--white);
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     width: 52rem;
     flex-direction: row;
     justify-content: space-evenly;
   }
 
-  @media screen and (min-width: 1280px) {
+  @media screen and (width >= 1280px) {
     width: 64rem;
   }
 `;
@@ -63,7 +63,7 @@ const Result = styled.li`
   text-align: center;
   margin-bottom: 15px;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     text-align: left;
     padding: 8px 5px;
     margin-bottom: 0;
@@ -75,14 +75,14 @@ const Result = styled.li`
 `;
 
 const InnerResult = styled.div`  
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     min-width: 180px;
     height: 100px;
     padding: 0 15px;
     border-right: 1px solid var(--light-grey);
   }
 
-  @media screen and (min-width: 1280px) {
+  @media screen and (width >= 1280px) {
     height: 75px;
   }
 `;
@@ -96,7 +96,7 @@ const ResultTitle = styled.p`
   margin-top: -5px;
   margin-bottom: 8px;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     font-size: 0.8rem;
   }
 `;
@@ -106,7 +106,7 @@ const ResultValue = styled.p`
   color: var(--very-dark-grey);
   font-weight: 500;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     font-size: 1.25rem;
   }
 `;

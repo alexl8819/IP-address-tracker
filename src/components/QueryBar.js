@@ -13,7 +13,7 @@ const QueryContainer = styled.form`
   margin-top: 10px;
   margin-bottom: 25px;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     width: 32rem;
   }
 `;
@@ -37,13 +37,13 @@ const QueryInput = styled.input`
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   width: 85%;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
 
   &:active, &:focus {
     outline: none;
   }
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     width: 89%;
   }
 `;
@@ -69,7 +69,7 @@ const QuerySubmitBtn = styled.button`
     background-color: var(--very-dark-grey);
   }
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     width: 11%;
   }
 `;
