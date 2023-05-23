@@ -7,5 +7,14 @@ module.exports = {
         "runtime": "automatic"
       }
     ]
+  ],
+  "plugins": [
+    [
+      "@compiled/babel-plugin",
+      {
+        "importReact": true,
+        "cache": true
+      }
+    ]
   ]
 };
