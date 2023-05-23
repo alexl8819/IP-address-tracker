@@ -2,7 +2,7 @@ import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
 import QueryBar from './QueryBar';
-import Loading from './Loading';
+import { Loading } from './Loading';
 
 const Title = styled.h1`
   font-size: 1.75rem;

@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
 import TrackerResult from './Result';
-import TrackerMap from './Map';
+import { TextLoading } from './Loading';
+
+const TrackerMap = lazy(() => import('./Map'));
 
 import { getLocation } from '../utilities/query';
 import { InvalidRequestError, RateLimitError, UpstreamError } from '../utilities/error';
@@ -97,7 +99,9 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
       />
       <TrackerMapContainer>
         <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} error={error} updateQuery={setQuery} />
-        <TrackerMap coords={geolocation.coords} />
+        <Suspense fallback={<TextLoading />}>
+          <TrackerMap coords={geolocation.coords} />
+        </Suspense>
       </TrackerMapContainer>
     </>
   );
