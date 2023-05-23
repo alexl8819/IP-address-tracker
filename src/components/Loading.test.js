@@ -1,5 +1,3 @@
-import 'cross-fetch/polyfill';
-
 import { render } from '@testing-library/react';
 import { TextLoading } from './Loading';
 
