@@ -9,6 +9,12 @@
         "plugin:react/jsx-runtime"
     ],
     "overrides": [
+        {
+            "files": [ "src/setupTest.js", "*.test.js" ],
+            "rules": {
+              "no-undef": 0
+            }
+        }
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
