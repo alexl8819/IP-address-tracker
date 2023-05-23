@@ -34,7 +34,7 @@ function LocationMarker ({ center, marker }) {
   const map = useMap();
   map.flyTo(center, map.getZoom());
   
-  return !center.length === null ? null : (
+  return !center.length ? null : (
     marker ? <Marker position={center} icon={marker} /> : <Marker position={center} />
   );
 }
@@ -48,7 +48,6 @@ function createCustomMarkerIcon (iconUrl) {
   if (!iconUrl) {
     return null;
   }
-  
   const u = new URL(iconUrl);
   return new Icon({ iconUrl: u.pathname + u.search });
 }
