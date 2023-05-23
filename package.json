@@ -32,7 +32,6 @@
     "@compiled/parcel-optimizer": "^0.4.0",
     "@compiled/parcel-transformer": "^0.13.0",
     "@fontsource/rubik": "^4.5.14",
-    "@parcel/optimizer-esbuild": "^2.8.3",
     "@parcel/reporter-bundle-analyzer": "^2.8.3",
     "@parcel/reporter-sourcemap-visualiser": "^2.8.3",
     "@testing-library/react": "^14.0.0",
