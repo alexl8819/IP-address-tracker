@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
-import styled from 'styled-components';
+import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
 import TrackerResult from './Result';
@@ -105,4 +105,4 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
 
 IPAddressTracker.propTypes = {
   baseGeoUrl: PropTypes.string.isRequired
-}
+};

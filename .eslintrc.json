@@ -18,7 +18,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "@compiled"
     ],
     "rules": {
         "indent": [

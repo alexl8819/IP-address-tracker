@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
 import QueryBar from './QueryBar';

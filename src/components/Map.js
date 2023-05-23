@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import L from 'leaflet';
+import { Icon } from 'leaflet';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
@@ -43,7 +43,7 @@ function LocationMarker ({ center, marker }) {
 
 LocationMarker.propTypes = {
   center: PropTypes.array.isRequired,
-  marker: PropTypes.instanceOf(L.Icon)
+  marker: PropTypes.instanceOf(Icon)
 };
 
 function createCustomMarkerIcon (iconUrl) {
@@ -52,5 +52,5 @@ function createCustomMarkerIcon (iconUrl) {
   }
   
   const u = new URL(iconUrl);
-  return L.icon({ iconUrl: u.pathname + u.search });
+  return new Icon({ iconUrl: u.pathname + u.search });
 }

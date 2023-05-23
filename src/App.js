@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@compiled/react';
 
 import IPAddressTracker from './components/Tracker';
 

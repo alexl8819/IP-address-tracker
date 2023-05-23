@@ -1,9 +1,13 @@
 {
-  "extends": "@parcel/config-default",
+  "extends": ["@parcel/config-default", "@compiled/parcel-config"],
   "transformers": {
     "*.{js,mjs,jsx,cjs,ts,tsx}": [
+      "@compiled/parcel-transformer",
       "@parcel/transformer-js",
       "@parcel/transformer-react-refresh-wrap"
     ]
+  },
+  "optimizers": {
+    "*.js": ["@parcel/optimizer-esbuild", "@compiled/parcel-optimizer"]
   }
 }

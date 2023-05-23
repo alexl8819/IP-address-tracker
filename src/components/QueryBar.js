@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
 import { isValidIP, isValidDomain } from '../utilities/net';
+
 import ArrowIcon from '../images/icon-arrow.svg';
 
 const QueryContainer = styled.form`
