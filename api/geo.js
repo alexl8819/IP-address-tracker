@@ -7,26 +7,27 @@ import { BalanceError, UpstreamError } from '../src/utilities/error';
 import { digestMessage } from '../src/utilities/hash';
 import { isValidIP, isValidDomain } from '../src/utilities/net';
 
-const corsConfig = {
-  origin: '*',
-  methods: 'GET,HEAD',
-};
-
 export const config = {
   runtime: 'edge',
 };
 
+const corsConfig = {
+  'origin': '*',
+  'methods': 'GET,HEAD'
+};
+
 export default async function handler (request) {
   const API_KEY = process.env.GEOIP_API_KEY;
+  
   const query = new URL(request.url).searchParams.get('query');
   const clientAddress = query ? Buffer.from(query, 'base64').toString().trim() : ipAddress(request);
-
-  const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
   const ratelimit = new Ratelimit({
     redis: kv,
     limiter: Ratelimit.slidingWindow(10, '10 s')
   });
+
+  const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
   const { success } = await ratelimit.limit(hashedAddress);
 
@@ -119,7 +120,9 @@ export default async function handler (request) {
     location,
     isp
   });
-  await kv.set(hashedAddress, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs to prevent abuse
+  
+  const _ = await kv.set(hashedAddress, response, { ex: 60 * 60 * 24 * 1, nx: true }); // Cached for 24 hrs to prevent abuse
+  
   return cors(request, new Response(response, {
     status: 200,
     headers: {
@@ -133,13 +136,13 @@ async function locate (ipAddressOrDomain, apiKey) {
   const { credits } = await balance.json();
 
   if (credits <= 10) {
-    throw new BalanceError('Credits are near zero');
+    throw new BalanceError('Credits are near zero: Unable to fulfill request');
   }
 
   const geoResponse = await fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&${isValidIP(ipAddressOrDomain) ? `ipAddress` : 'domain'}=${ipAddressOrDomain}`);
   
   if (!geoResponse.ok && geoResponse.status === 400) {
-    throw new UpstreamError('Bad request due to query');
+    throw new UpstreamError('Bad request: Invalid query');
   }
 
   const geoData = await geoResponse.json();
