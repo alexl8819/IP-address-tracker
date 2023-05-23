@@ -13,7 +13,11 @@ export default function TrackerMap ({ coords }) {
   const center = !coords.length ? DEFAULT_COORDS : coords;
 
   const displayMap = useMemo(() => (
-    <MapContainer center={center} zoom={13} scrollWheelZoom={false} zoomControl={false}>
+    <MapContainer center={center} zoom={13} scrollWheelZoom={false} zoomControl={false} style={{
+      height: '100vh',
+      width: '100vw',
+      zIndex: 0
+    }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
