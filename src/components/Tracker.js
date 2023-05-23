@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { styled } from '@compiled/react';
@@ -9,8 +9,6 @@ import TrackerMap from './Map';
 
 import { getLocation } from '../utilities/query';
 import { InvalidRequestError, RateLimitError, UpstreamError } from '../utilities/error';
-
-import 'react-toastify/dist/ReactToastify.css';
 
 const TrackerMapContainer = styled.div`
   display: flex;
@@ -38,6 +36,7 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
   const [query, setQuery] = useState('');
   const [error, setError] = useState(false);
   const [geolocation, setGeolocation] = useState(emptyState);
+  const toastId = useRef(null);
   
   const runQuery = async () => {
     const existingQuery = cache.get(query); // aggressively cache queries that have already been executed
@@ -56,10 +55,11 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
     } catch (err) {
       console.error(err);
       if (err instanceof RateLimitError) {
-        toast.error('Rate limited: Wait 10 seconds and try again.'); 
+        toastId.current = toast.error('Rate limited: Wait 10 seconds and try again.'); 
       } else if (err instanceof InvalidRequestError || err instanceof UpstreamError) {
-        toast.error(`Invalid request: "${query}" did not return any results`);
+        toastId.current = toast.error(`Invalid request: "${query}" did not return any results`);
       }
+      toastId.current = null;
       setError(true);
       // Rollback prev state
       setGeolocation(prevState);

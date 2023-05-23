@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 
 import icon from '../images/icon-location.svg';
 
-import 'leaflet/dist/leaflet.css';
-
 const DEFAULT_COORDS = [51.505, -0.09];
 
 const customMarker = createCustomMarkerIcon(icon);
