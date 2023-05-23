@@ -14,15 +14,15 @@ export function Loading () {
   return (
     <Skeleton />
   );
-};
+}
 
 export function TextLoading ({ message }) {
   return (
     <FullContainer>
       <p>{ message || 'Loading...'}</p>
     </FullContainer>
-  )
-};
+  );
+}
 
 TextLoading.propTypes = {
   message: PropTypes.string
