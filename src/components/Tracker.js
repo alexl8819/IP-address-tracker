@@ -4,7 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
-import TrackerResult from './Result';
+import TrackerResults from './Result';
+import QueryBar from './QueryBar';
 import { TextLoading } from './Loading';
 
 const TrackerMap = lazy(() => import('./Map'));
@@ -21,6 +22,38 @@ const TrackerMapContainer = styled.div`
 
   @media screen and (width >= 1024px) {
     max-width: 62rem;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 10px;
+`;
+
+
+const ResultContainer = styled.header`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  padding-top: 175px;
+  padding-left: 25px;
+  padding-right: 25px;
+  position: relative;
+  z-index: 1;
+
+  @media screen and (width >= 1024px) {
+    height: 200px;
+    padding-top: 150px;
+  }
+
+  @media screen and (width >= 1280px) {
+    height: 240px;
+    padding-top: 125px;
   }
 `;
 
@@ -98,7 +131,11 @@ export default function IPAddressTracker ({ baseGeoUrl }) {
         theme="colored"
       />
       <TrackerMapContainer>
-        <TrackerResult ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} error={error} updateQuery={setQuery} />
+        <ResultContainer>
+          <Title>IP Address Tracker</Title>
+          <QueryBar updateQuery={setQuery} error={error} result={geolocation.ip} />
+          <TrackerResults ip={geolocation.ip} location={geolocation.location} timezone={geolocation.timezone} isp={geolocation.isp} />
+        </ResultContainer>
         <Suspense fallback={<TextLoading />}>
           <TrackerMap coords={geolocation.coords} />
         </Suspense>

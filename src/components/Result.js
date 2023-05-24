@@ -1,39 +1,7 @@
 import { styled } from '@compiled/react';
 import PropTypes from 'prop-types';
 
-import QueryBar from './QueryBar';
 import { Loading } from './Loading';
-
-const Title = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 500;
-  color: var(--white);
-  text-align: center;
-  margin-bottom: 10px;
-`;
-
-const ResultContainer = styled.header`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 300px;
-  padding-top: 175px;
-  padding-left: 25px;
-  padding-right: 25px;
-  position: relative;
-  z-index: 1;
-
-  @media screen and (width >= 1024px) {
-    height: 200px;
-    padding-top: 150px;
-  }
-
-  @media screen and (width >= 1280px) {
-    height: 240px;
-    padding-top: 125px;
-  }
-`;
 
 const ResultView = styled.ol` 
   display: flex;
@@ -111,46 +79,40 @@ const ResultValue = styled.p`
   }
 `;
 
-export default function TrackerResult ({ ip, location, timezone, isp, error, updateQuery }) {
+export default function TrackerResults ({ ip, location, timezone, isp }) {
   return (
-    <ResultContainer>
-      <Title>IP Address Tracker</Title>
-      <QueryBar updateQuery={updateQuery} error={error} result={ip} />
-      <ResultView>
-        <Result>
-          <InnerResult>
-            <ResultTitle>ip address</ResultTitle>
-            <ResultValue>{ip || <Loading />}</ResultValue>
-          </InnerResult>
-        </Result>
-        <Result>
-          <InnerResult>
-            <ResultTitle>location</ResultTitle>
-            <ResultValue>{location || <Loading />}</ResultValue>
-          </InnerResult>
-        </Result>
-        <Result>
-          <InnerResult>
-            <ResultTitle>timezone</ResultTitle>
-            <ResultValue>{timezone ? `UTC ${timezone}` : <Loading />}</ResultValue>
-          </InnerResult>
-        </Result>
-        <Result>
-          <InnerResult>
-            <ResultTitle>isp</ResultTitle>
-            <ResultValue>{isp || <Loading />}</ResultValue>
-          </InnerResult>
-        </Result>
-      </ResultView>
-    </ResultContainer>
+    <ResultView>
+      <Result>
+        <InnerResult>
+          <ResultTitle>ip address</ResultTitle>
+          <ResultValue>{ip || <Loading />}</ResultValue>
+        </InnerResult>
+      </Result>
+      <Result>
+        <InnerResult>
+          <ResultTitle>location</ResultTitle>
+          <ResultValue>{location || <Loading />}</ResultValue>
+        </InnerResult>
+      </Result>
+      <Result>
+        <InnerResult>
+          <ResultTitle>timezone</ResultTitle>
+          <ResultValue>{timezone ? `UTC ${timezone}` : <Loading />}</ResultValue>
+        </InnerResult>
+      </Result>
+      <Result>
+        <InnerResult>
+          <ResultTitle>isp</ResultTitle>
+          <ResultValue>{isp || <Loading />}</ResultValue>
+        </InnerResult>
+      </Result>
+    </ResultView>
   );
 }
 
-TrackerResult.propTypes = {
+TrackerResults.propTypes = {
   ip: PropTypes.string,
   location: PropTypes.string,
   timezone: PropTypes.string,
-  isp: PropTypes.string,
-  error: PropTypes.bool.isRequired,
-  updateQuery: PropTypes.func.isRequired
+  isp: PropTypes.string
 };
