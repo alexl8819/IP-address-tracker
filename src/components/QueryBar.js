@@ -84,7 +84,7 @@ export default function QueryBar ({ result, error, updateQuery }) {
     const query = new FormData(e.target).get('query').trim();
 
     if (!query || !query.length || (!isValidDomain(query) && !isValidIP(query))) {
-      return;
+      throw new Error('Invalid Query');
     }
 
     updateQuery(query);

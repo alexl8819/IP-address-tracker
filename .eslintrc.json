@@ -6,7 +6,9 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:react/jsx-runtime"
+        "plugin:react/jsx-runtime",
+        "plugin:testing-library/react",
+        "plugin:@compiled/recommended"
     ],
     "overrides": [
         {
@@ -24,8 +26,7 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "@compiled"
+        "react"
     ],
     "rules": {
         "indent": [
@@ -43,7 +44,8 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "@compiled/no-styled-tagged-template-expression": "off"
     },
     "settings": {
       "react": {
