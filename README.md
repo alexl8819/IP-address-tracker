@@ -51,11 +51,14 @@ Users should be able to:
 
 ### What I learned
 
-Learned a bit about optimizing my app using lazy loading and source map debugging for bundle bloat. 
+After seeing many people choose to publically share their GeoIP API key, I was reminded of how important it was to make sure resources are well protected and secured behind a backend server. Therefore for this project, I chose to write a serverless edge function using my existing vercel account to complete this project. I learned a bit about improving initial response performance of my app utilizing dynamic lazy loading and suspense features and source map debugging for bundle bloat. I also learned and wrote a few basic test cases
+to test out functionality of some of my components through DOM testing. I could not figure out a good way to test the map component
+as it contains a graphical map but I will upload a test if I can think of one. I hope to start my next project with snapshot testing in mind as testing seems to make me re-think
+how to organize my components better.
 
 ### Continued development
 
-I am focusing on testing, linting and optimizing my app by utilizing lighthouse.
+I am focusing on building tests, linting my code and optimizing my app by utilizing lighthouse. I may have not been as accurate design wise.
 
 ## Author
 
