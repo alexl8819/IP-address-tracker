@@ -9,7 +9,7 @@ describe('QueryBar component', () => {
   const el = screen.getByRole('form', { name: 'Search' });
   const input = within(el).getByDisplayValue('8.8.8.8');
 
-  test('Should not call updateQuery if invalid query input (ipv4, ipv6 or domains)', () => {
+  test('Should not call updateQuery if invalid query input', () => {
     fireEvent.change(input, {target: { value: 'thisisnotvalid'}}); 
     fireEvent.click(within(el).getByRole('button'));
     
