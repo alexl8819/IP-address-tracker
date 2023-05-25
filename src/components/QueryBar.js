@@ -95,7 +95,7 @@ export default function QueryBar ({ result, error, updateQuery }) {
   }, [result]);
 
   return (
-    <QueryContainer role="form" onSubmit={handleQuery} aria-label="Search" noValidate>
+    <QueryContainer onSubmit={handleQuery} aria-label="Search" noValidate>
       <QueryLabel htmlFor="query">Search</QueryLabel>
       <QueryInput type="text" id="query" name="query" placeholder="Search for any IP address or domain" defaultValue={result} hasError={error} disabled={disabled} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
