@@ -80,11 +80,11 @@ export default function QueryBar ({ result, error, updateQuery }) {
   
   const handleQuery = (e) => {
     e.preventDefault();
-
+    
     const query = new FormData(e.target).get('query').trim();
 
     if (!query || !query.length || (!isValidDomain(query) && !isValidIP(query))) {
-      throw new Error('Invalid Query');
+      return;
     }
 
     updateQuery(query);
@@ -95,7 +95,7 @@ export default function QueryBar ({ result, error, updateQuery }) {
   }, [result]);
 
   return (
-    <QueryContainer onSubmit={handleQuery} noValidate>
+    <QueryContainer role="form" onSubmit={handleQuery} aria-label="Search" noValidate>
       <QueryLabel htmlFor="query">Search</QueryLabel>
       <QueryInput type="text" id="query" name="query" placeholder="Search for any IP address or domain" defaultValue={result} hasError={error} disabled={disabled} />
       <QuerySubmitBtn type="submit" disabled={disabled}>
