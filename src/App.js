@@ -2,7 +2,6 @@ import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { LRUCache } from 'lru-cache';
 import { ToastContainer, toast } from 'react-toastify';
 import { styled } from '@compiled/react';
-import PropTypes from 'prop-types';
 
 import TrackerResults from './components/Result';
 import QueryBar from './components/QueryBar';
