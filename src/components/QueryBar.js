@@ -53,9 +53,9 @@ const QuerySubmitBtn = styled.button`
   display: flex;
   justify-content: center;
   background-color: var(--very-dark-grey);
-  padding: 22px 15px;
+  padding: 20px 15px;
   border: none;
-  height: 58px;
+  height: 54px;
   cursor: pointer;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
