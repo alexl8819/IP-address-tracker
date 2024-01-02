@@ -22,10 +22,23 @@ export default async function handler (request) {
   const query = new URL(request.url).searchParams.get('query');
   const clientAddress = query ? Buffer.from(query, 'base64').toString().trim() : ipAddress(request);
 
-  const ratelimit = new Ratelimit({
-    redis: kv,
-    limiter: Ratelimit.slidingWindow(10, '10 s')
-  });
+  let ratelimit;
+
+  try {
+    ratelimit = new Ratelimit({
+      redis: kv,
+      limiter: Ratelimit.slidingWindow(10, '10 s')
+    });
+  } catch (err) {
+    return cors(request, new Response(JSON.stringify({
+      message: 'Initialization Error - please try again later'
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }), corsConfig);
+  }
 
   const hashedAddress = await digestMessage(clientAddress); // obtain hex value of hashed address
 
