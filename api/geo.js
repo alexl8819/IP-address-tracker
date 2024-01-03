@@ -30,6 +30,7 @@ export default async function handler (request) {
       limiter: Ratelimit.slidingWindow(10, '10 s')
     });
   } catch (err) {
+    console.error(err);
     return cors(request, new Response(JSON.stringify({
       message: 'Initialization Error - please try again later'
     }), {
