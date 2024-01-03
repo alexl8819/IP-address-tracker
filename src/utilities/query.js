@@ -1,7 +1,7 @@
 import { RateLimitError, InvalidRequestError, UpstreamError, ServerError } from './error';
 import { Buffer } from 'buffer';
 
-export async function getLocation (query = null, baseUrl = 'https://ip-address-tracker-eight-blush.vercel.app/') {
+export async function getLocation (query = null, baseUrl = 'https://ip-address-tracker-rho-mauve.vercel.app/') {
   const response = await fetch(`${baseUrl}api/geo${query ? `?query=${encodeURIComponent(Buffer.from(query).toString('base64'))}` : ''}`);
   if (!response.ok) {
     if (response.status === 429) {
