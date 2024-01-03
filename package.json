@@ -11,16 +11,8 @@
     "analyze": "parcel build --dist-dir public --reporter @parcel/reporter-bundle-analyzer",
     "test": "NODE_ENV=test jest --no-cache"
   },
-  "author": "slightlyfunctional",
+  "author": "alexl8819",
   "license": "GPL-3.0-or-later",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com/slightlyfunctional/IP-address-tracker.git"
-  },
-  "bugs": {
-    "url": "https://gitlab.com/slightlyfunctional/IP-address-tracker/issues"
-  },
-  "homepage": "https://gitlab.com/slightlyfunctional/IP-address-tracker#readme",
   "devDependencies": {
     "@babel/core": "^7.21.8",
     "@babel/plugin-transform-modules-commonjs": "^7.21.5",

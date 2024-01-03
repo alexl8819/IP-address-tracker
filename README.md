@@ -32,7 +32,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [IP Address Tracker](https://ip-address-tracker-eight-blush.vercel.app/)
+- Live Site URL: [IP Address Tracker](https://ip-address-tracker.io/)
 
 ## My process
 
@@ -58,9 +58,8 @@ how to organize my components better.
 
 ### Continued development
 
-I am focusing on building tests, linting my code and optimizing my app by utilizing lighthouse. I may have not been as accurate design wise.
+I am focusing on building tests, linting my code and optimizing my app by utilizing lighthouse. Aim to be more accurate with designs over time.
 
 ## Author
 
-- Website - [slightlyfunctional.com](https://slightlyfunctional.com)
-- Frontend Mentor - [@slightlyfunctional](https://www.frontendmentor.io/profile/slightlyfunctional)
+- Frontend Mentor - [@alexl8819](https://www.frontendmentor.io/profile/alexl8819)

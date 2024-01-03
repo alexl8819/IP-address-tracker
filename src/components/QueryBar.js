@@ -15,7 +15,7 @@ const QueryContainer = styled.form`
   margin-bottom: 25px;
 
   @media screen and (width >= 1024px) {
-    width: 32rem;
+    width: 35rem;
   }
 `;
 
@@ -34,7 +34,7 @@ const QueryLabel = styled.label`
 const QueryInput = styled.input`
   border: ${(props) => props.hasError ? '1px solid red' : 'none'};
   font-size: 18px;
-  padding: 15px 29px;
+  padding: 18px 30px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   width: 85%;
@@ -53,9 +53,9 @@ const QuerySubmitBtn = styled.button`
   display: flex;
   justify-content: center;
   background-color: var(--very-dark-grey);
-  padding: 20px 15px;
+  padding: 23px 18px;
   border: none;
-  height: 54px;
+  height: auto;
   cursor: pointer;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;

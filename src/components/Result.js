@@ -20,7 +20,7 @@ const ResultView = styled.ol`
   }
 
   @media screen and (width >= 1280px) {
-    width: 64rem;
+    width: 70rem;
   }
 `;
 
@@ -45,7 +45,7 @@ const Result = styled.li`
 const InnerResult = styled.div`  
   @media screen and (width >= 1024px) {
     min-width: 180px;
-    height: 100px;
+    min-height: 100px;
     padding: 0 15px;
     border-right: 1px solid var(--light-grey);
   }
@@ -62,7 +62,6 @@ const ResultTitle = styled.p`
   text-transform: uppercase;
   letter-spacing: 0.13em;
   margin-top: -5px;
-  margin-bottom: 8px;
 
   @media screen and (width >= 1024px) {
     font-size: 0.8rem;
@@ -75,7 +74,7 @@ const ResultValue = styled.p`
   font-weight: 500;
 
   @media screen and (width >= 1024px) {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 `;
 

@@ -1,4 +1,4 @@
-import { RateLimitError, InvalidRequestError, UpstreamError } from './error';
+import { RateLimitError, InvalidRequestError, UpstreamError, ServerError } from './error';
 import { Buffer } from 'buffer';
 
 export async function getLocation (query = null, baseUrl = 'https://ip-address-tracker-eight-blush.vercel.app/') {
@@ -10,6 +10,8 @@ export async function getLocation (query = null, baseUrl = 'https://ip-address-t
       throw new InvalidRequestError('Bad request');
     } else if (response.status === 500) {
       throw new UpstreamError('Upstream API could not process request');
+    } else if (response.status === 502) {
+      throw new ServerError('Failed to process request. Try again later');
     }
   }
   const data = await response.json();

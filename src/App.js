@@ -10,7 +10,7 @@ import { TextLoading } from './components/Loading';
 const TrackerMap = lazy(() => import('./components/Map'));
 
 import { getLocation } from './utilities/query';
-import { InvalidRequestError, RateLimitError, UpstreamError } from './utilities/error';
+import { InvalidRequestError, RateLimitError, ServerError, UpstreamError } from './utilities/error';
 
 const AppContainer = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const TrackerMapContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 500;
   color: var(--white);
   text-align: center;
@@ -108,6 +108,8 @@ export default function App () {
         toastId.current = toast.error('Rate limited: Wait 10 seconds and try again.'); 
       } else if (err instanceof InvalidRequestError || err instanceof UpstreamError) {
         toastId.current = toast.error(`Invalid request: "${query}" did not return any results`);
+      } else if (err instanceof ServerError) {
+        toastId.current = toast.error('Unable to process request at this time. Try again later.');
       }
       toastId.current = null;
       setError(true);
