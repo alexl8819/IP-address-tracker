@@ -30,6 +30,7 @@ const AppContainer = styled.div`
 
 const TrackerMapContainer = styled.div`
   display: flex;
+  z-index: 2;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -54,21 +55,19 @@ const ResultContainer = styled.header`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 300px;
-  padding-top: 175px;
+  min-height: 300px;
   padding-left: 25px;
   padding-right: 25px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 
   @media screen and (width >= 1024px) {
-    height: 200px;
-    padding-top: 150px;
+    min-height: 440px;
+    justify-content: start;
   }
 
   @media screen and (width >= 1280px) {
-    height: 240px;
-    padding-top: 125px;
+    min-height: 500px;
   }
 `;
 

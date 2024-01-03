@@ -16,7 +16,9 @@ export default function TrackerMap ({ coords }) {
     <MapContainer center={center} zoom={13} scrollWheelZoom={false} zoomControl={false} style={{
       height: '100vh',
       width: '100vw',
-      zIndex: 0
+      zIndex: 0,
+      position: 'relative',
+      marginTop: '-15rem'
     }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
