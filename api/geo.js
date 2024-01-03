@@ -33,7 +33,7 @@ export default async function handler (request) {
     return cors(request, new Response(JSON.stringify({
       message: 'Initialization Error - please try again later'
     }), {
-      status: 500,
+      status: 502,
       headers: {
         'Content-Type': 'application/json'
       }
