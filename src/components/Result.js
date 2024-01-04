@@ -51,7 +51,7 @@ const InnerResult = styled.div`
   }
 
   @media screen and (width >= 1280px) {
-    height: 75px;
+    height: 85px;
   }
 `;
 
@@ -74,7 +74,7 @@ const ResultValue = styled.p`
   font-weight: 500;
 
   @media screen and (width >= 1024px) {
-    font-size: 1.5rem;
+    font-size: 1.875rem;
   }
 `;
 
