@@ -42,7 +42,7 @@
     "postcss-styled-syntax": "^0.4.0",
     "process": "^0.11.10",
     "react-test-renderer": "^18.2.0",
-    "sharp": "^0.31.1",
+    "sharp": "^0.33.5",
     "stylelint": "^15.6.2",
     "stylelint-config-standard": "^33.0.0"
   },
