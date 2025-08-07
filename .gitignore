@@ -18,4 +18,3 @@ node_modules
 parcel-bundle-reports
 dist
 .vercel
-package-lock.json
